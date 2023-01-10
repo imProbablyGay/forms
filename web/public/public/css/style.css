@@ -1,0 +1,135 @@
+#upload_new_icon_modal .change-icon {
+  max-height: 400px;
+}
+#upload_new_icon_modal .change-icon__btn {
+  background: dodgerblue;
+  border: 1px solid blue;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 700;
+}
+
+button {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+body {
+  background: red;
+}
+
+.modal-content {
+  border: none !important;
+  border-radius: 10px !important;
+  min-height: 150px;
+}
+.modal-header {
+  border: none !important;
+}
+.modal-footer {
+  padding: 10px 0 0 0 !important;
+  border: none !important;
+}
+.modal-footer button {
+  color: rgb(71, 71, 71);
+  background: none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+.modal-close-footer:hover {
+  color: #E9424D !important;
+}
+.modal-send-footer:hover {
+  color: #2C9B42 !important;
+}
+
+.accordion button {
+  color: black !important;
+  background: none !important;
+}
+.accordion button:after {
+  background: url() !important;
+}
+.accordion-item {
+  border: none !important;
+}
+
+.navbar {
+  transition: 0.3s;
+}
+.navbar .collapse {
+  justify-content: flex-end;
+  transition: 3s !important;
+}
+.navbar .nav-link {
+  transition: 0.3s;
+}
+.navbar .nav-link.active {
+  color: white !important;
+}
+.navbar-toggler {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  box-shadow: none !important;
+  border: none !important;
+  margin-left: 4px;
+}
+.navbar-toggler._active .bar-1 {
+  transform: rotate(45deg);
+  top: 50%;
+}
+.navbar-toggler._active .bar-2 {
+  transform: scale(0);
+}
+.navbar-toggler._active .bar-3 {
+  transform: rotate(-45deg);
+  top: 50%;
+}
+.navbar-toggler .bar {
+  width: 100%;
+  height: 2px;
+  background: black;
+  position: absolute;
+  left: 0;
+  transition: 0.2s;
+}
+.navbar-toggler .bar-1 {
+  top: 0px;
+}
+.navbar-toggler .bar-2 {
+  top: 50%;
+}
+.navbar-toggler .bar-3 {
+  top: 100%;
+}
+.navbar-top {
+  background: transparent;
+  padding-top: 30px !important;
+}
+.navbar-scrolled {
+  background: red;
+  padding-top: 10px !important;
+  padding-bottom: 10px;
+  box-shadow: 0px 0px 10px black;
+}
+
+@media screen and (max-width: 992px) {
+  .navbar {
+    padding-top: 10px !important;
+    background: grey;
+    box-shadow: 0px 0px 10px grey;
+  }
+  .navbar-nav {
+    padding-top: 70px;
+  }
+  .navbar .nav-link {
+    display: inline;
+    line-height: 3;
+  }
+}/*# sourceMappingURL=style.css.map */

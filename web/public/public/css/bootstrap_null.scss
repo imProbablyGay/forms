@@ -1,0 +1,143 @@
+// button
+button {
+    box-shadow: none !important;
+    outline:none !important;
+}
+body {
+    background: red;
+}
+// modal
+.modal {
+    &-content {
+        border:none !important;
+        border-radius: 10px !important;
+        min-height: 150px;
+    }
+
+    &-header {
+        border:none !important;
+    }
+
+    &-footer {
+        padding: 10px 0 0 0 !important;
+        border:none !important;
+
+        button {
+            color:rgb(71, 71, 71);
+            background: none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: .3s;
+        }
+    }
+
+    &-close-footer {
+        &:hover {
+            color:#E9424D !important;
+        }
+    }
+
+    &-send-footer {
+        &:hover{
+            color:#2C9B42 !important;
+        }
+    }
+}
+
+// accordion
+.accordion {
+    button{
+        color:black !important;
+        background: none !important;
+
+        // set img to right accordion
+        &:after {
+            background: url() !important;
+        }
+    }
+
+    &-item {
+        border:none !important;
+    }
+}
+
+// navbar
+.navbar {
+    transition: .3s;
+
+    .collapse {justify-content: flex-end;transition: 3s !important;}
+
+    .nav-link {
+        transition: .3s;
+
+        &.active {
+            color:white !important;
+        }
+    }
+
+    &-toggler {
+        position: relative;
+        width: 30px;
+        height: 20px;
+        box-shadow: none !important;
+        border:none !important;
+        margin-left: 4px;
+
+        &._active {
+            .bar {
+                &-1 {transform: rotate(45deg);top:50%;}
+                &-2 {transform: scale(0);}
+                &-3 {transform: rotate(-45deg);top:50%;}
+            }
+        }
+
+        .bar {
+            width: 100%;
+            height: 2px;
+            background: black;
+            position: absolute;
+            left: 0;
+            transition: .2s;
+
+            &-1 {
+                top: 0px;
+            }
+
+            &-2 {
+                top:50%;
+            }
+
+            &-3 {
+                top:100%;
+            }
+        }
+    }
+
+    &-top {
+        background: transparent;
+        padding-top: 30px !important;
+    }
+
+    &-scrolled {
+        background: red;
+        padding-top: 10px !important;
+        padding-bottom: 10px;
+        box-shadow: 0px 0px 10px black;
+    }
+}
+
+
+// adaptive
+@media screen and (max-width:992px) {
+    .navbar {
+        padding-top: 10px !important;
+        background: grey;
+        box-shadow: 0px 0px 10px grey;
+
+        &-nav {
+            padding-top: 70px;
+        }
+
+        .nav-link  {display: inline;line-height: 3;}
+    }
+}

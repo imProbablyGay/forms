@@ -1,0 +1,22 @@
+
+#upload_new_icon_modal {
+    .change-icon {
+        max-height: 400px;
+
+        &__btn {
+            background: dodgerblue;
+            border:1px solid blue;
+            color:white;
+            padding: 10px;
+            border-radius:5px;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 700;
+        }
+    }
+}
+
+// adaptive
+@import '_adaptive.scss';
+@import 'bootstrap_null.scss';
