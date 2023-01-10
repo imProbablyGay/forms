@@ -124,7 +124,7 @@ class AuthController extends Controller
         $user->save();
 
         // delete data from restore_passwords table
-        $restore = RestorePasswords::where('user_id','=',$user_id)->delete();
+        RestorePasswords::where('user_id','=',$user_id)->delete();
 
         return redirect(route('show_restored_password'))->with('password_restored', true);
     }
