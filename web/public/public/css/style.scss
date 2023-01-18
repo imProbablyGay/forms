@@ -16,6 +16,34 @@
         }
     }
 }
+.mceContentBody{
+    overflow-y:hidden!important;
+ }
+#upload_new_form_modal {
+    .form {
+        padding-top: 0 !important;
+
+        &__options {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        &__option {
+            padding: 5px 10px;
+            border:1px solid lightgrey;
+            border-radius:5px;
+            margin: 0px 10px 10px;
+            color:grey;
+            cursor: pointer;
+
+            &.active {
+                border-color:green;
+                color:green;
+            }
+        }
+    }
+}
 
 // adaptive
 @import '_adaptive.scss';

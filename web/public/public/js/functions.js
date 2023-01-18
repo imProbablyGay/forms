@@ -9,3 +9,7 @@ function postJSON(url, data) {
         body: JSON.stringify(data),
     })
 }
+
+function getToken() {
+    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+}

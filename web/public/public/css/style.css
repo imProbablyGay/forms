@@ -13,6 +13,31 @@
   font-weight: 700;
 }
 
+.mceContentBody {
+  overflow-y: hidden !important;
+}
+
+#upload_new_form_modal .form {
+  padding-top: 0 !important;
+}
+#upload_new_form_modal .form__options {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+#upload_new_form_modal .form__option {
+  padding: 5px 10px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin: 0px 10px 10px;
+  color: grey;
+  cursor: pointer;
+}
+#upload_new_form_modal .form__option.active {
+  border-color: green;
+  color: green;
+}
+
 button {
   box-shadow: none !important;
   outline: none !important;

@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Forms;
 use App\Models\Questions;
 use App\Models\Options;
+use App\Models\QuestionTypes;
 
-class FormsController extends Controller
+class FormController extends Controller
 {
     public function upload_process(Request $request)
     {
@@ -54,5 +55,19 @@ class FormsController extends Controller
             $option->value = $o['value'];
             $option->save();
         }
+    }
+
+    public function show_create_form()
+    {
+        $q_types = QuestionTypes::all();
+        return view('form.create', compact('q_types'));
+    }
+
+    public function create_form_process(Request $request)
+    {
+        $image = $request->file('file');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('img/form'), $new_name);
+        return json_encode(['location' => '/img/form/'.$new_name]);
     }
 }

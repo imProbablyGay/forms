@@ -37,10 +37,12 @@ Route::post('/password/restore_process/{link}', 'App\Http\Controllers\AuthContro
 
 Route::get('/password/restored', 'App\Http\Controllers\AuthController@show_restored_password')->name('show_restored_password');
 
-Route::post('/upload_form_process', 'App\Http\Controllers\FormsController@upload_process')->name('upload_form_process');
 
 Route::get('/profile/edit', 'App\Http\Controllers\AuthController@show_edit')->name('show_profile_edit');
 Route::post('/profile/edit_process', 'App\Http\Controllers\AuthController@edit_profile_process')->name('edit_profile_process');
 Route::post('/profile/edit_picture_process', 'App\Http\Controllers\AuthController@edit_profile_picture_process')->name('edit_profile_picture_process');
+
+Route::get('/form/create', 'App\Http\Controllers\FormController@show_create_form')->name('show_create_form');
+Route::post('/form/create_process', 'App\Http\Controllers\FormController@create_form_process')->name('upload_form_process');
 
 Route::get('/404', 'App\Http\Controllers\ErrorsController@not_found')->name('not_found');

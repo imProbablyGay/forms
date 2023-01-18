@@ -12,15 +12,34 @@ hui 2
     <p>{{ session('success') }}</p>
 @endif
 
-<form action="{{ route('forgot_password_process')}}" method="post">
+<form action="{{ route('forgot_password_process')}}" method="post" enctype="multipart/form-data">
     @csrf
-    <input type="text" name="email" id="">
+    <input type="file" name="file" id="file">
     <input type="submit">
 </form>
 <hr>
 @endsection
 
 <script>
+setTimeout(() => {
+    let form = document.querySelector('form');
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        let data = file.files[0];
+        let formData = new FormData();
+        formData.append('file', data);
+        console.log(formData);
+        fetch("{{ route('forgot_password_process')}}", {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': getToken()
+            },
+            body: formData
+        })
+        .then(data => data.text())
+        .then(data => console.log(data))
+    }
+}, 100);
 // setTimeout(() => {
 //     let data = {
 //         'name': 'my first form',
