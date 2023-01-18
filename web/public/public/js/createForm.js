@@ -69,7 +69,7 @@ function initUploadFormModal(id = 'uploadForm') {
         statusbar: false,
         setup: function(editor) {
             editor.on('keydown', function(e) {
-                    let lengthAfter = editor.getContent({format:'text'}).length;
+                    let lengthAfter = editor.plugins.wordcount.body.getCharacterCount();
                     displayTextCount(lengthAfter, e, editor);
             });
         },

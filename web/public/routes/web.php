@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', 'App\Http\Controllers\Test\TestController@test')->name('test');
+
 Route::get('/', function () {
     return view('home');
 });
+
 
 Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
 
