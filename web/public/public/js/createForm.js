@@ -77,7 +77,7 @@ function initUploadFormModal(id = 'uploadForm') {
     });
 }
 
-//text count
+//text count 33
 function displayTextCount(lengthAfter = null, e = null, editor = null) {
     const limit = 10;
     const keysToExclude = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Backspace'];
