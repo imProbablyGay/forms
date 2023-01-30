@@ -6,7 +6,7 @@ hui
 
 @section('main')
 <h1>login</h1>
-<form action="{{route('login_process')}}" method="post">
+<form action="{{route('login.update')}}" method="post">
     @csrf
     @if (session('data'))
         <h2>{{session('data')}}</h2>
@@ -16,5 +16,5 @@ hui
     <input type="submit">
 </form>
 <hr>
-<a href="{{ route('register')}}">register</a>
+<a href="{{ route('register.index')}}">register</a>
 @endsection

@@ -5,31 +5,67 @@ document.addEventListener('focusin', function (e) {
     }
   });
 
-
-let uploadFormModal = document.getElementById('upload_new_form_modal');
-let upload_new_form_modal = new bootstrap.Modal(uploadFormModal);
+// variables
+let uploadQuestionModal = document.getElementById('upload_new_question_modal');
+let upload_new_question_modal = new bootstrap.Modal(uploadQuestionModal);
 let countText = document.querySelector('.count__text >span');
+let questionCreate = document.querySelector('.new-question__show');
+let questionOptions = document.querySelector('.new-question__options');
+let questionsSpot = document.querySelector('.new-questions__spot');
 
 
-displayTextCount();//display text count on load
-showUploadFormModal()
+// events
+uploadQuestionModal.addEventListener('hidden.bs.modal', clearQuestionModal);
 
+questionOptions.querySelectorAll('.new-question__option').forEach(el => {
+    el.addEventListener('click', function () {
+        questionOptions.querySelector('.active').classList.remove('active')
+        el.classList.add('active');
+    })
+})
 
-function showUploadFormModal(formId = null) {
-    upload_new_form_modal.show();
-    initUploadFormModal();
+document.querySelector('.new-question__add').addEventListener('click', () => showUploadQuestionModal())
 
-    // create new question
-    let controls = uploadFormModal.querySelector('.form__options').children;
-    if (formId === null) {
-        controls[0].classList.add('active');
+document.querySelector('.new-question__show').addEventListener('click', function (e) {
+    let data = {
+        'text': tinymce.activeEditor.getContent(),
+        'type': questionOptions.querySelector('.active').dataset.type
+    };
+    // clear modal
+    clearQuestionModal();
+    createQuestion(data);
+})
+
+document.querySelector('.questions').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('option__add')) return;
+    e.target.children[0].classList.toggle('shown');
+})
+document.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('option__add')) {
+        try {
+            document.querySelector('.option__add-options.shown').classList.remove('shown');
+        } catch(e) {}
     }
+});
+// document.querySelector('.question__change').addEventListener('click', (e) => {showUploadQuestionModal(id)});
 
+
+
+//functions usage
+displayTextCount();// display 0/10 onload
+
+//functions declaration
+
+// question modal
+initUploadQuestionModal();
+function showUploadQuestionModal(questionId = null) {
+    upload_new_question_modal.show();
 }
-
-
-
-function initUploadFormModal(id = 'uploadForm') {
+function initUploadQuestionModal(questionId = null) {
+    // create new question
+    if (questionId === null) {
+        questionOptions.children[0].classList.add('active');
+    }
     const image_upload_handler_callback = (blobInfo) => new Promise((resolve) => {
         let blob = blobInfo.blob();
         let formData = new FormData();
@@ -56,7 +92,7 @@ function initUploadFormModal(id = 'uploadForm') {
         .catch(e => console.log(e))
     });
     tinymce.init({
-        selector: '#'+id,
+        selector: '#uploadQuestion',
         plugins: 'codesample image wordcount visualchars',
         toolbar: "bold italic underline | codesample | image",
         image_dimensions: false,
@@ -69,15 +105,13 @@ function initUploadFormModal(id = 'uploadForm') {
         statusbar: false,
         setup: function(editor) {
             editor.on('keydown', function(e) {
-                    let lengthAfter = editor.getContent({format:'text'}).length;
+                    let lengthAfter = editor.plugins.wordcount.body.getCharacterCount();
                     displayTextCount(lengthAfter, e, editor);
             });
         },
         images_upload_handler: image_upload_handler_callback
     });
 }
-
-//text count 33
 function displayTextCount(lengthAfter = null, e = null, editor = null) {
     const limit = 10;
     const keysToExclude = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Backspace'];
@@ -97,10 +131,35 @@ function displayTextCount(lengthAfter = null, e = null, editor = null) {
     }
     else { // default
         setTimeout(() => {
-            countText.innerHTML = editor.plugins.wordcount.body.getCharacterCount() + '/' + limit;
+            let currentLength = editor.plugins.wordcount.body.getCharacterCount();
+
+            if (currentLength == 0) questionCreate.classList.add('d-none');
+            else questionCreate.classList.remove('d-none');
+
+            countText.innerHTML = currentLength + '/' + limit;
         }, 0);
     };
 }
+function clearQuestionModal() {
+    questionOptions.querySelector('.active').classList.remove('active');
+    displayTextCount();
+    tinymce.activeEditor.setContent('');
+    tinymce.get('uploadQuestion').remove();
+    initUploadQuestionModal()
+    questionCreate.classList.add('d-none');
+}
+
+// question create HTML
+function createQuestion(data) {
+    let template = `${data.text}`;
+
+    let shell = document.createElement('div');
+    shell.classList.add('question', 'col-12');
+    shell.innerHTML = template;
+    questionsSpot.append(shell);
+}
+
+
 
 
 

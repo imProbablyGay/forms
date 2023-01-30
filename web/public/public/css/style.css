@@ -1,7 +1,8 @@
-#upload_new_icon_modal .change-icon {
-  max-height: 400px;
+.container {
+  max-width: 1000px !important;
 }
-#upload_new_icon_modal .change-icon__btn {
+
+#upload_icon_modal .change-icon__btn {
   background: dodgerblue;
   border: 1px solid blue;
   color: white;
@@ -17,25 +18,357 @@
   overflow-y: hidden !important;
 }
 
-#upload_new_form_modal .form {
+#upload_new_question_modal .new-question {
   padding-top: 0 !important;
 }
-#upload_new_form_modal .form__options {
+#upload_new_question_modal .new-question__options {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
 }
-#upload_new_form_modal .form__option {
+#upload_new_question_modal .new-question__option {
   padding: 5px 10px;
   border: 1px solid lightgrey;
+  margin-right: 10px;
+  margin-bottom: 10px;
   border-radius: 5px;
-  margin: 0px 10px 10px;
   color: grey;
   cursor: pointer;
 }
-#upload_new_form_modal .form__option.active {
+#upload_new_question_modal .new-question__option.active {
   border-color: green;
   color: green;
+}
+
+.question {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.question__text {
+  border-bottom: 1px solid lightgrey;
+  padding: 10px;
+}
+.question__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid lightgrey;
+}
+.question__edit button {
+  border-radius: 5px;
+  background: green;
+  color: white;
+  border: none;
+  font-size: 15px;
+  padding: 4px 8px;
+  height: 30px;
+  font-weight: 600;
+}
+.question__requirable {
+  color: grey;
+  font-size: 15px;
+}
+.question__option {
+  display: flex;
+  min-width: 350px;
+  flex-grow: 1;
+  padding: 10px;
+  padding-bottom: 0;
+}
+.question__options {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+}
+.question input {
+  border-radius: 3px;
+  flex-grow: 1;
+  height: 30px;
+  margin-left: 7px;
+  padding: 0 4px;
+  outline: none;
+  border: 1px solid lightgrey;
+}
+.question input:focus {
+  border-color: green;
+}
+.question .checkbox, .question .radio {
+  margin-top: 4px;
+}
+
+.option__add {
+  border-radius: 5px;
+  background: green;
+  color: white;
+  border: none;
+  width: 30px;
+  margin-left: 10px;
+  position: relative;
+  cursor: pointer;
+}
+.option__add:after {
+  content: "";
+  display: block;
+  background: white;
+  position: absolute;
+  left: 6px;
+  top: 13px;
+  width: 18px;
+  height: 4px;
+}
+.option__add:before {
+  content: "";
+  display: block;
+  background: white;
+  position: absolute;
+  left: 13px;
+  top: 6px;
+  width: 4px;
+  height: 18px;
+}
+.option__add-options {
+  position: absolute;
+  background: white;
+  color: grey;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  font-size: 14px;
+  left: calc(100% + 10px);
+  bottom: 0;
+  box-shadow: 0px 0px 10px lightgrey;
+  transition: 0.1s;
+  transform: scale(0);
+  transform-origin: left bottom;
+  opacity: 0;
+}
+.option__add-options.shown {
+  transform: scale(1);
+  opacity: 1;
+}
+.option__add-options:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -8px;
+  bottom: 5px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid white;
+}
+.option__add-options:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -8px;
+  bottom: 5px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid lightgrey;
+}
+.option__add-options div {
+  padding: 4px 8px;
+  width: 100%;
+  transition: 0.1s;
+}
+.option__add-options div:hover {
+  color: black;
+}
+.option__add-options div:first-child {
+  border-bottom: 1px solid lightgrey;
+}
+
+/* Customize the label (the radio) */
+.radio {
+  display: block;
+  position: relative;
+  padding-left: 23px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom radio button */
+.radio .checkmark {
+  outline: 1px solid green;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radio:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio input:checked ~ .checkmark {
+  background-color: green;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radio .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio .checkmark:after {
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+}
+
+/* Customize the label (the checkbox) */
+.checkbox {
+  display: block;
+  position: relative;
+  padding-left: 23px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkbox .checkmark {
+  outline: 1px solid green;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox input:checked ~ .checkmark {
+  background-color: green;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox .checkmark:after {
+  left: 8px;
+  top: 4px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.2s;
+}
+
+input:checked + .slider {
+  background-color: green;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px green;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 
 button {

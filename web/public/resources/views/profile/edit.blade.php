@@ -6,8 +6,7 @@ hui 2
 
 @section('main')
 <h1>edit</h1>
-<form action="{{ route('edit_profile_process')}}" method="post" id='form'>
-    @csrf
+<form id='form'>
     <input type="text" name="username" id="username" value="{{$user['name']}}">
     <input type="email" name="email" id="email" value="{{$user['email']}}">
     <input type="password" name="password" id="password" placeholder="сменить пароль">
@@ -15,15 +14,14 @@ hui 2
 </form>
 <hr>
 
-
 {{-- change icon --}}
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_new_icon_modal">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_icon_modal">
     change icon
   </button>
 
 <div class="container">
     <div class="row">
-        <div class="modal" tabindex="-1" id='upload_new_icon_modal'>
+        <div class="modal" tabindex="-1" id='upload_icon_modal'>
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
@@ -47,35 +45,3 @@ hui 2
 
 
 @endsection
-<script>
-window.onload = e => {
-
-    form.onsubmit = e => {
-        e.preventDefault();
-
-        let data = {
-            "name": username.value,
-            "email": email.value,
-            "password": password.value,
-        };
-        postJSON('/edit_profile_process', data)
-        .then(data => data.text())
-        .then(data => console.log(data))
-    }
-
-    function uploadPicture() {
-        let reader = new FileReader();
-        reader.readAsDataURL(image.files[0]);
-        reader.onload = () => {
-            let type = '.'+reader.result.split(';')[0].split('/')[1];
-            let img = reader.result.split(',')[1];
-
-            let data = {"base64": img, "extension": type,}
-            postJSON('/edit_profile_picture_process', data)
-            .then(data => data.text())
-            .then(data => console.log(data))
-        }
-    }
-}
-
-</script>

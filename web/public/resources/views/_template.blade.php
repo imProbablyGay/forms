@@ -7,7 +7,7 @@
     <meta name="csrf-token" content=" {{ csrf_token() }} ">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="/js/functions.js" defer></script>
-    @if (request()->route()->getName() == 'show_profile_edit')
+    @if (request()->route()->getName() == 'edit_profile.index')
         <link rel="stylesheet" href="/dist/cropper/cropper.min.css">
         <script src="/dist/cropper/cropper.min.js" defer></script>
         <script src="/js/uploadIcon.js" defer></script>

@@ -6,7 +6,7 @@ hui 2
 
 @section('main')
 <h1>register</h1>
-<form action="{{ route('register_process')}}" method="post">
+<form action="{{ route('register.store')}}" method="post">
     @forelse ($errors->all() as $error)
         <span style="color:red;">{{$error}}</span>
     @empty
@@ -19,5 +19,5 @@ hui 2
     <input type="submit">
 </form>
 <hr>
-<a href="{{ route('login')}}"></a>
+<a href="{{ route('login.index')}}"></a>
 @endsection
