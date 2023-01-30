@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->integer('form_id')->unsigned();
+            $table->unsignedBigInteger('form_id');
             $table->text('text');
             $table->boolean('is_required');
             $table->integer('type')->unsigned();
 
-            // $table->foreign('id')->references('q_id')->on('options');
+          //  $table->foreign('id')->references('q_id')->on('options');
+        $table->foreign('form_id')->references('id')->on('options');
         });
     }
 
