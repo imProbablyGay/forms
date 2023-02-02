@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('type')->unsigned();
 
           //  $table->foreign('id')->references('q_id')->on('options');
-        $table->foreign('form_id')->references('id')->on('options');
+        // $table->foreign('form_id')->references('id')->on('options');
         });
     }
 

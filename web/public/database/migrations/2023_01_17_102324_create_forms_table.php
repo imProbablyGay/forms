@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('name');
 
-            $table->foreign('user_id')->on('users')->references('id');
-    
+            // $table->foreign('user_id')->on('users')->references('id');
+
         });
     }
 

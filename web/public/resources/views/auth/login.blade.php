@@ -13,6 +13,8 @@ hui
     @endif
     <input type="text" name="name" id="">
     <input type="password" name="password" id="">
+    <label for="remember">Запомнить меня</label>
+      <input type="checkbox" name="remember" value="1">
     <input type="submit">
 </form>
 <hr>

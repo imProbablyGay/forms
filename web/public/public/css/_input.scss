@@ -21,7 +21,7 @@
 
   /* Create a custom radio button */
   .radio .checkmark {
-    outline:1px solid green;
+    outline:1px solid var(--blue);
     position: absolute;
     top: 0;
     left: 0;
@@ -38,7 +38,7 @@
 
   /* When the radio button is checked, add a blue background */
   .radio input:checked ~ .checkmark {
-    background-color: green;
+    background-color: var(--blue);
   }
 
   /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -86,7 +86,7 @@
 
   /* Create a custom checkbox */
   .checkbox .checkmark {
-    outline:1px solid green;
+    outline:1px solid var(--blue);
     position: absolute;
     top: 0;
     left: 0;
@@ -102,7 +102,7 @@
 
   /* When the checkbox is checked, add a blue background */
   .checkbox input:checked ~ .checkmark {
-    background-color: green;
+    background-color: var(--blue);
   }
 
   /* Create the checkmark/indicator (hidden when not checked) */
@@ -171,11 +171,11 @@
   }
 
   input:checked + .slider {
-    background-color: green;
+    background-color: var(--blue);
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px green;
+    box-shadow: 0 0 1px var(--blue);
   }
 
   input:checked + .slider:before {

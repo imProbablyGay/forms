@@ -26,35 +26,41 @@
                     <h5>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi cumque ab totam commodi ullam porro doloremque earum voluptatem unde laboriosam.</h5>
                 </div>
 
-                <div class="question__options ">
+                <div class="question__options" data-question-type='ckeckbox'>
                     <div class="question__option option">
-                            <label class="checkbox">
-                                <input type="radio" checked="checked" disabled>
-                                <span class="checkmark"></span>
-                              </label>
-                        <input type="text" placeholder="Введите значение">
+                        <label class="checkbox">
+                            <input type="radio" checked="checked" disabled>
+                            <span class="checkmark"></span>
+                            </label>
+                        <input maxlength="1000" type="text" placeholder="Введите значение">
+                        <div class="option__delete">
+                            <div class="cross-close"></div>
+                        </div>
                     </div>
 
-                    <div class="question__option">
-                        <label class="radio">
+                    <div class="question__option option">
+                        <label class="checkbox">
                             <input type="checkbox" checked="checked" disabled>
                             <span class="checkmark"></span>
                           </label>
-                        <input type="text" placeholder="Введите значение">
+                        <input maxlength="1000" type="text" placeholder="Введите значение">
+                        <div class="option__delete">
+                            <div class="cross-close"></div>
+                        </div>
                     </div>
-
-
+                </div>
+                <div class="question__options-add options__add">
+                    <div class="option__add" data-option-type='custom'><span>Добавить вариант</span></div>
+                    <div class="option__add" data-option-type='another'><span>Добавить "другое"</span></div>
                 </div>
                 <div class="question__controls">
-                    <div class="d-flex">
-                        <div class="question__edit">
+                    <div class="d-flex align-items-center">
+                        <div class="question__edit d-flex">
                             <button>Изменить</button>
                         </div>
-                        <div class="question__option-add option__add">
-                            <div class="option__add-options">
-                                <div class="option__add-option" data-add-option-type='custom'>Добавить&nbspответ</div>
-                                <div class="option__add-option" data-add-option-type='another'>Добавить&nbsp"другое"</div>
-                            </div>
+
+                        <div class="question__delete">
+                            <img src="/img/usage/rubbish-bin.svg" / width='22'>
                         </div>
                     </div>
 

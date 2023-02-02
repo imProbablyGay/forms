@@ -1,0 +1,22 @@
+.cross-close {
+    position: absolute;
+    right: 16px;
+    top:8px;
+    width: 16px;
+    height: 32px;
+    opacity: 0.3;
+  }
+  .cross-close:before, .cross-close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 17px;
+    width: 2px;
+    background-color: #333;
+  }
+  .cross-close:before {
+    transform: rotate(45deg);
+  }
+  .cross-close:after {
+    transform: rotate(-45deg);
+  }

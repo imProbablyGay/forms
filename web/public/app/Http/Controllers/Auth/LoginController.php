@@ -21,8 +21,15 @@ class LoginController extends Controller
             "name" => 'required | max:200',
             "password" => 'required | max:50',
         ]);
+
         $field_type = filter_var($data['name'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
-        if(auth()->attempt(array($field_type => $data['name'], 'password' => $data['password']))) {
+        $remember = $request->has('remember') ? true : false;
+        $login_data = [
+            $field_type => $data['name'],
+            'password' => $data['password'],
+        ];
+
+        if(auth()->attempt($login_data, $remember)) {
             return redirect(route('edit_profile.index'));
         }
 

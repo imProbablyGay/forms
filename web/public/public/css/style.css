@@ -1,5 +1,11 @@
+:root {
+  --blue: rgb(
+      202, 178, 207
+      );
+}
+
 .container {
-  max-width: 1000px !important;
+  max-width: 850px !important;
 }
 
 #upload_icon_modal .change-icon__btn {
@@ -35,8 +41,8 @@
   cursor: pointer;
 }
 #upload_new_question_modal .new-question__option.active {
-  border-color: green;
-  color: green;
+  border-color: var(--blue);
+  color: var(--blue);
 }
 
 .question {
@@ -45,143 +51,119 @@
   margin-bottom: 10px;
 }
 .question__text {
-  border-bottom: 1px solid lightgrey;
   padding: 10px;
+}
+.question__delete {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer !important;
+  position: relative;
+  margin-left: 10px;
+}
+.question__delete:hover img {
+  filter: invert(20%) sepia(100%) hue-rotate(300deg) saturate(10);
 }
 .question__controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-top: 1px solid lightgrey;
 }
 .question__edit button {
   border-radius: 5px;
-  background: green;
-  color: white;
-  border: none;
+  border: 1px solid var(--blue);
+  background: white;
   font-size: 15px;
+  color: grey;
   padding: 4px 8px;
   height: 30px;
   font-weight: 600;
+  font-size: 14px;
+  transition: 0.3s;
+}
+.question__edit button:hover {
+  background: var(--blue);
+  color: white;
 }
 .question__requirable {
   color: grey;
-  font-size: 15px;
-}
-.question__option {
-  display: flex;
-  min-width: 350px;
-  flex-grow: 1;
-  padding: 10px;
-  padding-bottom: 0;
-}
-.question__options {
-  display: flex;
-  flex-wrap: wrap;
-  padding-bottom: 10px;
-}
-.question input {
-  border-radius: 3px;
-  flex-grow: 1;
-  height: 30px;
-  margin-left: 7px;
-  padding: 0 4px;
-  outline: none;
-  border: 1px solid lightgrey;
-}
-.question input:focus {
-  border-color: green;
+  font-size: 14px;
 }
 .question .checkbox, .question .radio {
   margin-top: 4px;
 }
 
-.option__add {
-  border-radius: 5px;
-  background: green;
-  color: white;
+.option {
+  display: flex;
+  flex-grow: 1;
+  padding: 10px;
+  padding-bottom: 0;
+}
+.option input {
+  flex-grow: 1;
+  height: 30px;
+  margin-left: 7px;
+  padding: 0 4px;
+  outline: none;
   border: none;
-  width: 30px;
+  border-bottom: 1px solid transparent;
+}
+.option input:focus {
+  border-bottom: 1px solid var(--blue);
+}
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+}
+.options__add {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px 10px 10px;
+  justify-content: space-between;
+}
+.option__add {
+  flex-grow: 1;
+  border: 1px solid lightgrey;
+  color: grey;
+  padding: 7px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+.option__add:first-child {
+  margin-right: 10px;
+}
+.option__add:hover {
+  box-shadow: 0px 1px 5px var(--blue);
+}
+.option__delete {
+  width: 25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer !important;
   margin-left: 10px;
   position: relative;
-  cursor: pointer;
 }
-.option__add:after {
-  content: "";
-  display: block;
-  background: white;
-  position: absolute;
-  left: 6px;
-  top: 13px;
-  width: 18px;
-  height: 4px;
-}
-.option__add:before {
-  content: "";
-  display: block;
-  background: white;
-  position: absolute;
-  left: 13px;
-  top: 6px;
-  width: 4px;
-  height: 18px;
-}
-.option__add-options {
-  position: absolute;
-  background: white;
-  color: grey;
-  border-radius: 5px;
-  border: 1px solid lightgrey;
-  font-size: 14px;
-  left: calc(100% + 10px);
-  bottom: 0;
-  box-shadow: 0px 0px 10px lightgrey;
-  transition: 0.1s;
-  transform: scale(0);
-  transform-origin: left bottom;
-  opacity: 0;
-}
-.option__add-options.shown {
-  transform: scale(1);
+.option__delete:hover .cross-close {
   opacity: 1;
 }
-.option__add-options:after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: -8px;
-  bottom: 5px;
-  width: 0;
-  height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-right: 10px solid white;
-}
-.option__add-options:before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: -8px;
-  bottom: 5px;
-  width: 0;
-  height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-right: 8px solid lightgrey;
-}
-.option__add-options div {
-  padding: 4px 8px;
-  width: 100%;
-  transition: 0.1s;
-}
-.option__add-options div:hover {
-  color: black;
-}
-.option__add-options div:first-child {
-  border-bottom: 1px solid lightgrey;
-}
 
+@media screen and (max-width: 576px) {
+  .option__add {
+    max-width: 100% !important;
+    width: 100%;
+  }
+  .option__add:first-child {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+}
 /* Customize the label (the radio) */
 .radio {
   display: block;
@@ -205,7 +187,7 @@
 
 /* Create a custom radio button */
 .radio .checkmark {
-  outline: 1px solid green;
+  outline: 1px solid var(--blue);
   position: absolute;
   top: 0;
   left: 0;
@@ -222,7 +204,7 @@
 
 /* When the radio button is checked, add a blue background */
 .radio input:checked ~ .checkmark {
-  background-color: green;
+  background-color: var(--blue);
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -270,7 +252,7 @@
 
 /* Create a custom checkbox */
 .checkbox .checkmark {
-  outline: 1px solid green;
+  outline: 1px solid var(--blue);
   position: absolute;
   top: 0;
   left: 0;
@@ -286,7 +268,7 @@
 
 /* When the checkbox is checked, add a blue background */
 .checkbox input:checked ~ .checkmark {
-  background-color: green;
+  background-color: var(--blue);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -351,11 +333,11 @@
 }
 
 input:checked + .slider {
-  background-color: green;
+  background-color: var(--blue);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px green;
+  box-shadow: 0 0 1px var(--blue);
 }
 
 input:checked + .slider:before {
@@ -369,6 +351,32 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.cross-close {
+  position: absolute;
+  right: 16px;
+  top: 8px;
+  width: 16px;
+  height: 32px;
+  opacity: 0.3;
+}
+
+.cross-close:before, .cross-close:after {
+  position: absolute;
+  left: 15px;
+  content: " ";
+  height: 17px;
+  width: 2px;
+  background-color: #333;
+}
+
+.cross-close:before {
+  transform: rotate(45deg);
+}
+
+.cross-close:after {
+  transform: rotate(-45deg);
 }
 
 button {

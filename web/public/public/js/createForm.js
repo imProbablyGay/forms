@@ -17,6 +17,7 @@ let questionsSpot = document.querySelector('.new-questions__spot');
 // events
 uploadQuestionModal.addEventListener('hidden.bs.modal', clearQuestionModal);
 
+// options handling
 questionOptions.querySelectorAll('.new-question__option').forEach(el => {
     el.addEventListener('click', function () {
         questionOptions.querySelector('.active').classList.remove('active')
@@ -24,8 +25,10 @@ questionOptions.querySelectorAll('.new-question__option').forEach(el => {
     })
 })
 
+// show modal
 document.querySelector('.new-question__add').addEventListener('click', () => showUploadQuestionModal())
 
+// display new question
 document.querySelector('.new-question__show').addEventListener('click', function (e) {
     let data = {
         'text': tinymce.activeEditor.getContent(),
@@ -36,17 +39,56 @@ document.querySelector('.new-question__show').addEventListener('click', function
     createQuestion(data);
 })
 
-document.querySelector('.questions').addEventListener('click', (e) => {
-    if (!e.target.classList.contains('option__add')) return;
-    e.target.children[0].classList.toggle('shown');
-})
-document.addEventListener('click', (e) => {
-    if (!e.target.classList.contains('option__add')) {
+// add more options
+document.querySelectorAll('.option__add').forEach(el => {
+    el.addEventListener('click', (e) => {
+        let type = el.dataset.optionType;
+        let outputBlock = document.querySelector('.question__options');
+        let output = outputBlock.children[0].cloneNode(true);
+        output.querySelector('input[type="text"]').value = '';
+
+        if (type === 'another') {
+            el.classList.add('d-none');
+            output.querySelector('input[type="text"]').disabled = true;
+            output.querySelector('input[type="text"]').placeholder = 'Другое...'
+            output.classList.add('option-another');
+        }
+
         try {
-            document.querySelector('.option__add-options.shown').classList.remove('shown');
-        } catch(e) {}
+            outputBlock.insertBefore(output, outputBlock.querySelector('.option-another'));
+        } catch(e) {
+            outputBlock.append(output);
+        }
+        output.querySelector('input[type="text"]').focus()
+    })
+})
+
+//remove options
+document.querySelector('.question__options').addEventListener('click', (e) => {
+    if (getParentEl(e.target, 'option__delete', 1)) {
+        let option = getEl(e.target,'question__option');
+
+        // check required amount of options
+        if (e.currentTarget.children.length === 2) return;
+
+        // restore another option
+        if (option.classList.contains('option-another')) {
+            document.querySelector('[data-option-type="another"]').classList.remove('d-none');
+        }
+
+        option.remove();
     }
-});
+})
+
+// remove question
+document.querySelector('.questions__spot').addEventListener('click', (e) => {
+    if (!getParentEl(e.target, 'question__delete', 1)) return;
+
+    getEl(e.target, 'question').remove();
+})
+
+
+
 // document.querySelector('.question__change').addEventListener('click', (e) => {showUploadQuestionModal(id)});
 
 
@@ -57,7 +99,7 @@ displayTextCount();// display 0/10 onload
 //functions declaration
 
 // question modal
-initUploadQuestionModal();
+// initUploadQuestionModal(); !!!!
 function showUploadQuestionModal(questionId = null) {
     upload_new_question_modal.show();
 }
