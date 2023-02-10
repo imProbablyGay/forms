@@ -11,7 +11,6 @@
     {{ implode('', $errors->all('<div>:message</div>')) }}
 @endif
 
-
 <div class="container form">
     <div class="row form__title text-center">
         <div class="form__title col-12">
@@ -22,28 +21,26 @@
     <div class="questions">
         <div class="questions__spot">
             <div class="question">
-                <div class="question__text">
-                    <h5>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi cumque ab totam commodi ullam porro doloremque earum voluptatem unde laboriosam.</h5>
-                </div>
+                <div class="question__text"></div>
 
-                <div class="question__options" data-question-type='ckeckbox'>
+                <div class="question__options" data-question-type=''>
                     <div class="question__option option">
-                        <label class="checkbox">
-                            <input type="radio" checked="checked" disabled>
+                        <label class="">
+                            <input type="" checked="checked" disabled>
                             <span class="checkmark"></span>
                             </label>
-                        <input maxlength="1000" type="text" placeholder="Введите значение">
+                        <input class='option__input' maxlength="1000" type="text" placeholder="Введите значение">
                         <div class="option__delete">
                             <div class="cross-close"></div>
                         </div>
                     </div>
 
                     <div class="question__option option">
-                        <label class="checkbox">
-                            <input type="checkbox" checked="checked" disabled>
+                        <label class="">
+                            <input type="" checked="checked" disabled>
                             <span class="checkmark"></span>
                           </label>
-                        <input maxlength="1000" type="text" placeholder="Введите значение">
+                        <input class='option__input' maxlength="1000" type="text" placeholder="Введите значение">
                         <div class="option__delete">
                             <div class="cross-close"></div>
                         </div>
@@ -51,18 +48,17 @@
                 </div>
                 <div class="question__options-add options__add">
                     <div class="option__add" data-option-type='custom'><span>Добавить вариант</span></div>
-                    <div class="option__add" data-option-type='another'><span>Добавить "другое"</span></div>
+                    <div class="option__add option__add-another" data-option-type='another'><span>Добавить "другое"</span></div>
                 </div>
                 <div class="question__controls">
-                    <div class="d-flex align-items-center">
-                        <div class="question__edit d-flex">
-                            <button>Изменить</button>
-                        </div>
 
-                        <div class="question__delete">
-                            <img src="/img/usage/rubbish-bin.svg" / width='22'>
-                        </div>
-                    </div>
+                    <div class="dropdown dropup">
+                        <div class="question__settings" id="question-settings" data-bs-toggle="dropdown" aria-expanded="false"><div></div><div></div><div></div></div>
+                        <ul class="dropdown-menu" aria-labelledby="question-settings">
+                          <li class="question__edit dropdown-item">Изменить</li>
+                          <li class="dropdown-item question__delete">Удалить <img src="/img/usage/rubbish-bin.svg" width='17'></li>
+                        </ul>
+                      </div>
 
                     <div class="question__requirable text-end">
                         <span>Обязятельный вопрос</span>
@@ -75,8 +71,12 @@
             </div>
         </div>
         <div class="row question__create">
-            <div class="col-12">
+            <div class="col-md-6 col-12">
                 <button type='button' class="new-question__add btn btn-primary">Добавить вопрос</button>
+            </div>
+
+            <div class="col-md-6 col-12">
+                <button type='button' class="form__create btn btn-primary">Создать форму</button>
             </div>
         </div>
     </div>
@@ -93,12 +93,50 @@
         </div>
         <div class="modal-body new-question">
             <div class="new-question__controls">
-                <h6>Тип вопроса:</h6>
-                <div class="new-question__options">
-                    @foreach ($q_types as $type)
-                    <div class="new-question__option" data-type='{{$type->id}}'>{!! html_entity_decode($type->type) !!}</div>
-                    @endforeach
-                </div>
+
+
+                <div class=" new-question__type dropdown" id="dropdown">
+                    <div class="dropdown-toggle" id="upload-question-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class='new-question__type-option' data-type='radio'>
+                            <label class="radio">
+                            <input type="radio" checked="checked" disabled>
+                            <span class="checkmark"></span>
+                            </label>
+                            <span class="new-question__option-value">Один из списка</span>
+                        </span>
+                    </div>
+                    <ul class="dropdown-menu">
+                      <li class="dropdown-item d-none">
+                        <span class='new-question__type-option' data-type='radio'>
+                            <label class="radio">
+                            <input type="radio" checked="checked" disabled>
+                            <span class="checkmark"></span>
+                            </label>
+                            <span class="new-question__option-value">Один из списка</span>
+                        </span>
+                      </li>
+                      <li class="dropdown-item">
+                        <span class='new-question__type-option' data-type='checkbox'>
+                            <label class="checkbox">
+                            <input type="checkbox" checked="checked" disabled>
+                            <span class="checkmark"></span>
+                            </label>
+                            <span class="new-question__option-value">Несколько из списка</span>
+                        </span>
+                      </li>
+                      <li class="dropdown-item d-flex">
+                        <span class='new-question__type-option' data-type='text'>
+                            <div class='new-question__option-value-text'>
+                                <div>T</div>
+                            </div>
+                            <span class="new-question__option-value">Tекстовое поле</span>
+                        </span>
+                    </li>
+                    </ul>
+                  </div>
+
+
+
             </div>
 
             <div class="new-question__textarea">
@@ -109,7 +147,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn modal-send-footer d-none new-question__show" data-bs-dismiss="modal">Применить</button>
+          <button type="button" class="btn modal-send-footer d-none new-question__show" >Применить</button>
           <button type="button" class="btn modal-close-footer" data-bs-dismiss="modal">Отменить</button>
         </div>
       </div>

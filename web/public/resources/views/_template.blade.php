@@ -7,11 +7,11 @@
     <meta name="csrf-token" content=" {{ csrf_token() }} ">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="/js/functions.js" defer></script>
-    @if (request()->route()->getName() == 'edit_profile.index')
+    @if (request()->route()->getName() == 'edit_profile_data.edit')
         <link rel="stylesheet" href="/dist/cropper/cropper.min.css">
         <script src="/dist/cropper/cropper.min.js" defer></script>
         <script src="/js/uploadIcon.js" defer></script>
-    @elseif (request()->route()->getName() == 'show_create_form')
+    @elseif (request()->route()->getName() == 'create_form.index')
         <script src="https://cdn.tiny.cloud/1/d6cgt3veoxqgph1gof0h81iuu47ufm0ot3ufaownd0l4he82/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
         <script src="/js/createForm.js" defer></script>
     @endif

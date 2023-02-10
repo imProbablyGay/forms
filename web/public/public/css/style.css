@@ -4,13 +4,16 @@
       );
 }
 
+body {
+  min-height: 100vh;
+}
+
 .container {
   max-width: 850px !important;
 }
 
 #upload_icon_modal .change-icon__btn {
-  background: dodgerblue;
-  border: 1px solid blue;
+  background: var(--blue);
   color: white;
   padding: 10px;
   border-radius: 5px;
@@ -27,22 +30,44 @@
 #upload_new_question_modal .new-question {
   padding-top: 0 !important;
 }
-#upload_new_question_modal .new-question__options {
+#upload_new_question_modal .new-question__type {
   display: flex;
   flex-wrap: wrap;
+}
+#upload_new_question_modal .new-question__type .dropdown-toggle {
+  margin: 0 0 15px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+#upload_new_question_modal .new-question .dropdown-item {
+  padding: 8px;
+}
+#upload_new_question_modal .new-question .dropdown-item:active {
+  background: lightgrey;
+  color: black;
 }
 #upload_new_question_modal .new-question__option {
   padding: 5px 10px;
   border: 1px solid lightgrey;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
   color: grey;
   cursor: pointer;
+  transition: 0.3s;
 }
-#upload_new_question_modal .new-question__option.active {
-  border-color: var(--blue);
-  color: var(--blue);
+#upload_new_question_modal .new-question__option-value {
+  padding-left: 30px;
+}
+#upload_new_question_modal .new-question__option-value-text {
+  font-weight: 800;
+  position: relative;
+}
+#upload_new_question_modal .new-question__option-value-text div {
+  font-size: 20px;
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .question {
@@ -50,43 +75,42 @@
   border-radius: 5px;
   margin-bottom: 10px;
 }
+.question .dropdown {
+  height: 100%;
+}
+.question .dropdown-menu {
+  box-shadow: 0px 2px 8px lightgrey;
+}
+.question .dropdown-item:active {
+  background: lightgrey;
+  color: black;
+}
+.question__settings {
+  display: flex;
+  cursor: pointer;
+  height: 100%;
+  align-items: center;
+}
+.question__settings div {
+  width: 7px;
+  height: 7px;
+  border: 1px solid grey;
+  border-radius: 50%;
+  margin-right: 3px;
+}
 .question__text {
   padding: 10px;
 }
-.question__delete {
-  height: 30px;
-  width: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer !important;
-  position: relative;
-  margin-left: 10px;
-}
-.question__delete:hover img {
-  filter: invert(20%) sepia(100%) hue-rotate(300deg) saturate(10);
+.question__delete img {
+  margin-bottom: 2px;
 }
 .question__controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 10px;
-}
-.question__edit button {
-  border-radius: 5px;
-  border: 1px solid var(--blue);
-  background: white;
-  font-size: 15px;
-  color: grey;
-  padding: 4px 8px;
-  height: 30px;
-  font-weight: 600;
-  font-size: 14px;
-  transition: 0.3s;
-}
-.question__edit button:hover {
-  background: var(--blue);
-  color: white;
+  height: 50px;
 }
 .question__requirable {
   color: grey;
@@ -154,6 +178,132 @@
   opacity: 1;
 }
 
+.login, .register, .forgot-password, .restore-password, .restored-password, .profile-edit {
+  min-height: 100vh !important;
+  padding: 30px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login a, .register a, .forgot-password a, .restore-password a, .restored-password a, .profile-edit a {
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 700;
+}
+.login a:hover, .register a:hover, .forgot-password a:hover, .restore-password a:hover, .restored-password a:hover, .profile-edit a:hover {
+  text-decoration: underline;
+  color: var(--blue);
+}
+.login__title, .register__title, .forgot-password__title, .restore-password__title, .restored-password__title, .profile-edit__title {
+  padding-bottom: 10px;
+}
+.login__error, .register__error, .forgot-password__error, .restore-password__error, .restored-password__error, .profile-edit__error {
+  color: red;
+  font-size: 14px;
+}
+.login__submit, .register__submit, .forgot-password__submit, .restore-password__submit, .restored-password__submit, .profile-edit__submit {
+  margin-top: 10px;
+}
+.login__submit input, .register__submit input, .forgot-password__submit input, .restore-password__submit input, .restored-password__submit input, .profile-edit__submit input {
+  width: 100%;
+  background: var(--blue);
+  color: white;
+  font-weight: 700;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+}
+.login__submit input:hover, .register__submit input:hover, .forgot-password__submit input:hover, .restore-password__submit input:hover, .restored-password__submit input:hover, .profile-edit__submit input:hover {
+  box-shadow: 0px 0px 5px var(--blue);
+}
+.login__form, .register__form, .forgot-password__form, .restore-password__form, .restored-password__form, .profile-edit__form {
+  max-width: 500px !important;
+  width: 100%;
+  border: 1px solid var(--blue);
+  border-radius: 5px;
+  padding: 30px;
+  box-shadow: 0px 2px 10px var(--blue);
+}
+.login__input input, .register__input input, .forgot-password__input input, .restore-password__input input, .restored-password__input input, .profile-edit__input input {
+  width: 100%;
+  border: 1px solid var(--blue);
+  border-radius: 5px;
+  padding: 10px 15px;
+  transform: 0.2s linear;
+  margin-bottom: 15px;
+  outline: none;
+}
+.login__input input:focus, .register__input input:focus, .forgot-password__input input:focus, .restore-password__input input:focus, .restored-password__input input:focus, .profile-edit__input input:focus {
+  box-shadow: 0px 0px 5px var(--blue);
+}
+
+.register__submit {
+  margin-bottom: 0 !important;
+}
+
+.forgot-password__message, .restored-password__message {
+  max-width: 500px !important;
+  width: 100%;
+  border: 1px solid var(--blue);
+  border-radius: 5px;
+  padding: 30px;
+  box-shadow: 0px 2px 10px var(--blue);
+  text-align: center;
+}
+.forgot-password__message span, .restored-password__message span {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.login__submit {
+  margin: 15px 0 20px;
+}
+.login__remember-text {
+  padding-left: 10px;
+}
+.login__register p {
+  margin-bottom: 8px;
+}
+
+.profile-edit__success {
+  text-align: center;
+  padding-bottom: 10px;
+}
+.profile-edit__success span {
+  color: rgb(64, 206, 64);
+  line-height: 1;
+  font-weight: 600;
+  font-size: 18px;
+}
+.profile-edit__icon {
+  text-align: center;
+}
+.profile-edit__icon img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+.profile-edit__icon button {
+  margin: 10px 0 20px;
+  width: 100%;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-weight: 600;
+  padding: 10px 15px;
+  transition: 0.3s;
+}
+.profile-edit__icon button:hover {
+  color: white;
+  background: var(--blue);
+}
+.profile-edit__label {
+  font-size: 15px;
+  color: grey;
+}
+
 @media screen and (max-width: 576px) {
   .option__add {
     max-width: 100% !important;
@@ -162,6 +312,14 @@
   .option__add:first-child {
     margin-bottom: 10px;
     margin-right: 0;
+  }
+  .question__controls .d-flex {
+    width: 100%;
+    justify-content: space-between;
+    padding-bottom: 10px;
+  }
+  .login__form {
+    padding: 20px !important;
   }
 }
 /* Customize the label (the radio) */
@@ -172,7 +330,6 @@
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -237,7 +394,6 @@
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -258,7 +414,6 @@
   left: 0;
   height: 22px;
   width: 22px;
-  background-color: #eee;
 }
 
 /* On mouse-over, add a grey background color */

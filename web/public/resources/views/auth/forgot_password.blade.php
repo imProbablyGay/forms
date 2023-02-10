@@ -1,62 +1,53 @@
 @extends('_template')
 
 @section('title')
-hui 2
+Восстановить пароль
 @endsection
 
 @section('main')
-<h1>forgot</h1>
-@if($errors->any())
-    {{ implode('', $errors->all('<div>:message</div>')) }}
-@elseif(session('success'))
-    <p>{{ session('success') }}</p>
-@endif
 
-<form method="post">
-    @csrf
-    <input type="text" name="email" >
-    <input type="submit">
-</form>
-<hr>
+<div class="forgot-password">
+    <div class="container">
+        <div class="row">
+            {{-- email sent --}}
+            @if (session('success'))
+
+            <div class="col-12 justify-content-center d-flex">
+                <div class="forgot-password__message">
+                    <span>{{session('success')}}</span>
+                </div>
+            </div>
+
+
+            @else
+
+            {{-- forgto password form --}}
+            <div class="forgot-password__title text-center">
+                <h2>Восстановить пароль</h2>
+            </div>
+            <div class="col-12 justify-content-center d-flex">
+                <form action="{{route('forgot_password.store')}}" method="post" class="forgot-password__form">
+                    @csrf
+
+                    {{-- name --}}
+                    <div class='forgot-password__input'>
+                        @if($errors->has('email'))
+                            <span class="forgot-password__error">{{ $errors->first('email') }}</span>
+                        @endif
+                        <input type="text" name="email" id="" placeholder="E-mail пользователя">
+                    </div>
+
+                    <div class="forgot-password__submit">
+                        <input type="submit" value="Восстановить пароль">
+                    </div>
+
+                </form>
+            </div>
+
+            @endif
+
+        </div>
+    </div>
+</div>
+
 @endsection
-
-<script>
-
-// setTimeout(() => {
-//     let data = {
-//         'name': 'my first form',
-//         'questions': [
-//             {
-//                 'text': 'question text 1',
-//                 'type': '1',
-//                 'is_required': true,
-//                 'options': [
-//                     {'value': null}
-//                 ]
-//             },
-//             {
-//                 'text': 'question text 2',
-//                 'type': '2',
-//                 'is_required': false,
-//                 'options': [
-//                     {'value': 'value 1'},
-//                     {'value': 'value 2'},
-//                     {'value': 'value 3'},
-//                 ]
-//             }
-//         ]
-//     };
-
-
-//     fetch('/upload_form_process', {
-//         method: "POST",
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({"form":data, "_token":  document.querySelector('meta[name="csrf-token"]').getAttribute('content')}),
-//     })
-//     .then(data => data.text())
-//     .then(data => console.log(data))
-// }, 0);
-</script>

@@ -12,7 +12,6 @@ class EditPictureController extends Controller
     {
         $file = base64_decode($request['image']);
         $name = auth()->user()->id.'.jpeg';
-        $success = file_put_contents(public_path().'/img/'.$name, $file);
-        return $success;
+        file_put_contents(public_path().'/img/users/icons/'.$name, $file);
     }
 }

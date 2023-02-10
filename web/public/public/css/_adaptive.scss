@@ -7,4 +7,20 @@
             &:first-child {margin-bottom: 10px;margin-right: 0;}
         }
     }
+
+    .question {
+        &__controls {
+            .d-flex {
+                width:100%;
+                justify-content: space-between;
+                padding-bottom: 10px;
+            }
+        }
+    }
+
+    .login {
+        &__form {
+            padding: 20px !important;
+        }
+    }
 }

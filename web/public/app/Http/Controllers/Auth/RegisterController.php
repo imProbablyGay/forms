@@ -3,14 +3,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\AuthRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
 class RegisterController extends Controller
 {
-    public function store(AuthRequest $request)
+    public function register(RegisterRequest $request)
     {
         $data = $request->validated();
 

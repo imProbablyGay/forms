@@ -11,19 +11,6 @@ uploadIconModal.addEventListener('hidden.bs.modal', function() {
     document.querySelector('.upload-inp').addEventListener('change', editImage);
 });
 
-form.onsubmit = e => {
-    e.preventDefault();
-
-    let data = {
-        "name": username.value,
-        "email": email.value,
-        "password": password.value,
-    };
-    postJSON('/profile/edit_data', data)
-    .then(data => data.text())
-    .then(data => console.log(data))
-}
-
 
 uploadInp.addEventListener('change', editImage);
 
@@ -74,14 +61,18 @@ function editImage(e) {
                     });
                 }
             }
-        })
+        });
         acceptNewIcon.addEventListener('click', ()=>uploadNewIcon(cropper));
+
+        reader = null;
+        file = null;
     };
 }
 
 function uploadNewIcon(cropper) {
     let newIcon = cropper.getCroppedCanvas().toDataURL('image/jpeg').split(',')[1];
-    postJSON('/profile/edit_picture', {'image': newIcon})
-    .then(data => data.text())
-    .then(data => console.log(data))
+    postJSON('/profile/update_picture', {'image': newIcon})
+    .then(() => {
+        location.reload()
+    })
 }

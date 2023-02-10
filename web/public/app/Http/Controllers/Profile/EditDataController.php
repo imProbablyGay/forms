@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class EditDataController extends BaseController
 {
-    public function index()
+    public function edit()
     {
         return view('profile.edit', ['user' => auth()->user()]);
     }
@@ -23,6 +23,6 @@ class EditDataController extends BaseController
         ]);
         $this->service->update($data);
 
-        return 'success';
+        return redirect(route('edit_profile_data.edit'))->with('success', 'Данные успешно изменены');
     }
 }

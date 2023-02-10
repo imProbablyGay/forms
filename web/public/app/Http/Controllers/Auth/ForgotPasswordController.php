@@ -21,7 +21,7 @@ class ForgotPasswordController extends BaseController
 
         $this->service->store($data['email']);
 
-        return redirect(route('forgot_password.index'))->with('success', 'На вашу почту было отправлено письмо по восстановлению пароля.');
+        return redirect(route('forgot_password.index'))->with('success', 'На вашу почту былa отправлена инструкция по восстановлению пароля.');
     }
 }
 

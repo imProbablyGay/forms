@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\AuthRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,12 +15,9 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function update(Request $request)
+    public function login(LoginRequest $request)
     {
-        $data = $request->validate([
-            "name" => 'required | max:200',
-            "password" => 'required | max:50',
-        ]);
+        $data = $request->validated();
 
         $field_type = filter_var($data['name'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         $remember = $request->has('remember') ? true : false;
@@ -30,10 +27,10 @@ class LoginController extends Controller
         ];
 
         if(auth()->attempt($login_data, $remember)) {
-            return redirect(route('edit_profile.index'));
+            return redirect(route('edit_profile_data.edit'));
         }
 
-        return redirect(route('login.index'))->with('data', 'wrong data');
+        return redirect(route('login.index'))->with('wrong_data', 'Неправильный e-mail/имя пользователя или пароль');
     }
 }
 

@@ -2,13 +2,21 @@
     @extends('_template')
 
     @section('title')
-    пароль восстановлен
+    Пароль восстановлен
     @endsection
 
     @section('main')
 
-    <h1>Ваш пароль восстановлен</h1>
-    <p>Эту вкладку можно закрыть</p>
+    <div class="restored-password">
+        <div class="container">
+            <div class="col-12 justify-content-center d-flex">
+                <div class="restored-password__message">
+                    <span>Ваш пароль успешно восстановлен, эту вкладку можно закрыть.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @endsection
 @else
 <script>window.location = "{{ route('not_found') }}";</script>

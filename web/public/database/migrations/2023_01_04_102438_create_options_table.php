@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('q_id')->unsigned();
             $table->text('value')->nullable();
+            $table->integer('another')->nullable();
         });
     }
 

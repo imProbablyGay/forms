@@ -3,16 +3,17 @@
         202, 178, 207
         );
 }
+body {
+    min-height: 100vh;
+}
 
 .container {
     max-width: 850px !important;
 }
-
 #upload_icon_modal {
     .change-icon {
         &__btn {
-            background: dodgerblue;
-            border:1px solid blue;
+            background: var(--blue);
             color:white;
             padding: 10px;
             border-radius:5px;
@@ -30,25 +31,51 @@
     .new-question {
         padding-top: 0 !important;
 
-        &__options {
+        &__type {
             display: flex;
             flex-wrap: wrap;
+
+            .dropdown-toggle {
+                margin: 0 0 15px;
+                padding-bottom: 5px;
+                cursor: pointer;
+            }
+        }
+
+        .dropdown-item {
+            padding: 8px;
+
+            &:active {
+                background: lightgrey;
+                color:black;
+            }
         }
 
         &__option {
             padding: 5px 10px;
             border:1px solid lightgrey;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            border-radius:5px;
             color:grey;
             cursor: pointer;
+            transition: .3s;
 
-            .radio,.checkbox {}
+            &-value {
+                padding-left: 30px;
 
-            &.active {
-                border-color:var(--blue);
-                color:var(--blue);
+                &-text {
+                    font-weight: 800;
+                    position: relative;
+
+                    div {
+                        font-size: 20px;
+                        position: absolute;
+                        width: 22px;
+                        height: 22px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                    }
+                }
             }
         }
     }
@@ -59,50 +86,48 @@
     border-radius:5px;
     margin-bottom: 10px;
 
+    .dropdown {
+        height: 100%;
+        &-menu {
+            box-shadow: 0px 2px 8px lightgrey;
+        }
+
+        &-item:active {
+            background: lightgrey;
+            color:black;
+        }
+    }
+
+    &__settings {
+        display: flex;
+        cursor: pointer;
+        height: 100%;
+        align-items: center;
+
+        div {
+            width:7px;
+            height: 7px;
+            border:1px solid grey;
+            border-radius:50%;
+            margin-right: 3px;
+        }
+    }
+
     &__text {
         padding: 10px;
     }
 
-    &__delete{
-        height: 30px;
-        width: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer !important;
-        position: relative;
-        margin-left:10px;
-
-        &:hover {
-            img {
-                filter: invert(20%) sepia(100%) hue-rotate(300deg) saturate(10)
-            }
-        }
+    &__delete {
+        img {margin-bottom: 2px;}
     }
 
     &__controls {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
         padding: 10px;
-    }
-
-    &__edit button{
-        border-radius: 5px;
-        border:1px solid var(--blue);
-        background: white;
-        font-size: 15px;
-        color:grey;
-        padding: 4px 8px;
-        height: 30px;
-        font-weight: 600;
-        font-size: 14px;
-        transition: .3s;
-
-        &:hover {
-            background: var(--blue);
-            color:white;
-        }
+        height: 50px;
     }
 
     &__requirable {
@@ -176,6 +201,150 @@
                 opacity: 1;
               }
         }
+    }
+}
+
+.login , .register, .forgot-password, .restore-password, .restored-password, .profile-edit{
+    min-height: 100vh !important;
+    padding: 30px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+        color:var(--blue);
+        text-decoration: none;
+        font-weight: 700;
+
+        &:hover {text-decoration: underline;color:var(--blue);}
+    }
+
+    &__title {
+        padding-bottom: 10px;
+    }
+
+    &__error {
+        color:red;
+        font-size: 14px;
+    }
+
+    &__submit {
+        margin-top: 10px;
+
+        input {
+            width: 100%;
+            background: var(--blue);
+            color:white;
+            font-weight: 700;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border:none;
+            outline: none;
+            transition: .3s;
+
+            &:hover {
+                box-shadow: 0px 0px 5px var(--blue);
+            }
+        }
+    }
+
+    &__form {
+        max-width: 500px !important;
+        width: 100%;
+        border: 1px solid var(--blue);
+        border-radius: 5px;
+        padding: 30px ;
+        box-shadow: 0px 2px 10px var(--blue);
+    }
+
+    &__input {
+        input {
+            width: 100%;
+            border:1px solid var(--blue);
+            border-radius: 5px;
+            padding: 10px 15px;
+            transform: .2s linear;
+            margin-bottom: 15px;
+            outline: none;
+
+            &:focus {
+                box-shadow: 0px 0px 5px var(--blue);
+            }
+        }
+    }
+}
+
+.register__submit {margin-bottom: 0 !important;}
+.forgot-password , .restored-password{
+
+    &__message {
+        max-width: 500px !important;
+        width: 100%;
+        border: 1px solid var(--blue);
+        border-radius: 5px;
+        padding: 30px ;
+        box-shadow: 0px 2px 10px var(--blue);
+        text-align: center;
+
+        span {
+            font-weight: 600;
+            font-size: 17px;
+        }
+    }
+}
+
+.login {
+
+    &__submit {margin: 15px 0 20px;}
+    &__remember-text {
+        padding-left: 10px;
+    }
+
+    &__register {
+        p {margin-bottom: 8px;}
+    }
+}
+
+.profile-edit {
+    &__success {
+        text-align: center;
+        padding-bottom: 10px;
+        span {
+            color:rgb(64, 206, 64);
+            line-height: 1;
+            font-weight: 600;
+            font-size: 18px;
+        }
+    }
+
+    &__icon {
+        text-align: center;
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+
+        button {
+            margin: 10px 0 20px;
+            width: 100%;
+            border:1px solid var(--blue);
+            color:var(--blue);
+            font-weight: 600;
+            padding: 10px 15px;
+            transition: .3s;
+
+            &:hover {
+                color:white;
+                background: var(--blue);
+            }
+        }
+    }
+
+    &__label {
+        font-size: 15px;
+        color:grey;
     }
 }
 

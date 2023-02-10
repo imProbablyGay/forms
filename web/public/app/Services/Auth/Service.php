@@ -8,7 +8,7 @@ use App\Mail\ForgotPassword;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
-class Service extends Controller
+class Service
 {
     function store($email)
     {
@@ -28,7 +28,7 @@ class Service extends Controller
         $restore->save();
     }
 
-    function update($link, $password)
+    function restore_password($link, $password)
     {
         // get user id
         $user = RestorePasswords::where('link', '=', $link)->first();
