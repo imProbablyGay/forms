@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->integer('q_id')->unsigned();
+            $table->unsignedBigInteger('q_id');
             $table->text('value')->nullable();
             $table->integer('another')->nullable();
+
+            $table->index(['q_id']);
         });
     }
 

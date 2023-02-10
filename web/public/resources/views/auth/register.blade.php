@@ -22,7 +22,7 @@
                         @if($errors->has('email'))
                             <span class="register__error">{{ $errors->first('name') }}</span>
                         @endif
-                        <input type="text" name="name" id="" placeholder="Ваш e-mail">
+                        <input type="text" name="email" id="" placeholder="Ваш e-mail">
                     </div>
 
                     {{-- name --}}

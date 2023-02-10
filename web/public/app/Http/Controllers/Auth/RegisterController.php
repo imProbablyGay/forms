@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
-        $data = $request->validated();
-
+       // $data = $request->validated();
+       $data=$request;
         $user = User::create([
             "name" => $data['name'],
             "email" => $data['email'],
@@ -22,6 +22,9 @@ class RegisterController extends Controller
 
         if ($user) {
             auth('web')->login($user);
+        }
+        else {
+            dd($data);
         }
 
         return redirect(route('login.index'));

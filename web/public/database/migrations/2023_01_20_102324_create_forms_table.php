@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('form_id');
-            $table->text('text');
-            $table->boolean('is_required');
-            $table->integer('type')->unsigned();
-
-          //  $table->foreign('id')->references('q_id')->on('options');
-        // $table->foreign('form_id')->references('id')->on('options');
+            $table->unsignedBigInteger('user_id');
+            $table->text('name');
+            $table->foreign('id')->on('questions')->references('form_id');
         });
+
     }
 
     /**
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('forms');
     }
 };
