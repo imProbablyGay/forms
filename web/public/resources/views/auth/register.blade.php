@@ -21,11 +21,7 @@
                         @if($errors->has('email'))
                             <span class="register__error">{{ $errors->first('email') }}</span>
                         @endif
-<<<<<<< HEAD
                         <input type="text" name="email" id="" placeholder="Ваш e-mail" value='{{old("email")}}'>
-=======
-                        <input type="text" name="email" id="" placeholder="Ваш e-mail">
->>>>>>> 341092e27bf1f695305aa8d88d9c9d6dc680d7ba
                     </div>
 
                     {{-- name --}}
