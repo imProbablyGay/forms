@@ -9,7 +9,7 @@ document.addEventListener('focusin', function (e) {
 const QUESTION = {
     'el':document.querySelector('.question'),
     'text_option': `<div class="question__option option">
-        <textarea class="question__input-text" maxlength="1000" placeholder="Введите значение"></textarea>
+        <textarea class="option__input-text" maxlength="1000" placeholder="Текстовое поле" disabled></textarea>
     </div>`,
     'choose_option': function () {return QUESTION.el.querySelector('.option').outerHTML}
 };
@@ -18,17 +18,75 @@ QUESTION.el.remove();
 let uploadQuestionModal = document.getElementById('upload_new_question_modal');
 let upload_new_question_modal = new bootstrap.Modal(uploadQuestionModal);
 let countText = document.querySelector('.count__text >span');
+let countTextTitle = document.querySelector('.count__text-title >span');
 let questionCreate = document.querySelector('.new-question__show');
 let questionOptions = document.querySelector('.new-question__type');
-const limit = 10;// modal text limit
+let countTextData = {'id': 'uploadQuestion', 'node': countText};
+let countTextFormDescriptionData = {'id': 'formDescription', 'node': countTextTitle};
+const limit = 1000;// modal text limit
+const image_upload_handler_callback = (blobInfo) => new Promise((resolve) => {
+    let blob = blobInfo.blob();
+    let formData = new FormData();
+    formData.append('file', blob);
+    fetch('/form/create_image', {
+        method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': getToken()
+            },
+            body: formData
+    })
+    .then(data => data.json())
+    .then(data => {
+        resolve(data.location)
+
+        //hide modal
+        console.log(data.location);
+        document.querySelector('.tox-dialog__footer-end').children[1].click();
+        let content = tinymce.activeEditor.getContent() + `<img src='${data.location}'>`;
+        tinymce.activeEditor.setContent(content);
+        tinymce.activeEditor.selection.select(tinyMCE.activeEditor.getBody(), true);
+        tinymce.activeEditor.selection.collapse(false);
+        tinymce.activeEditor.focus();
+    })
+});
+
+const tinymceInitializeProps = {
+    //selector and placeholder
+
+    plugins: 'image wordcount visualchars autoresize',
+    toolbar: "bold italic underline | image",
+    image_dimensions: false,
+    images_upload_url: '/form/create_process',
+    content_style: 'img {max-width: 100%;max-height:500px;}',
+    language:'ru',
+    menubar:false,
+    image_description: false,
+    object_resizing : false,
+    statusbar: false,
+    paste_data_images: false,
+
+    // handle paste text
+    paste_preprocess: (editor, args) => tinymcePasteText(countText, editor,args),
+    images_upload_handler: image_upload_handler_callback
+};
 
 
 // events
 uploadQuestionModal.addEventListener('hidden.bs.modal', clearQuestionModal);
 document.querySelector('.new-question__textarea').addEventListener('click', hideNewQuestionOptions)
 
+
 // show modal
-document.querySelector('.new-question__add').addEventListener('click', () => upload_new_question_modal.show());
+document.querySelector('.new-question__add').addEventListener('click', async () => {
+    // check if there are limit amount of questions
+    let maxValues = await getQuestionsMaxValues();
+    if (document.querySelectorAll('.question').length === maxValues.questions) {
+        showAlertModal(`В одной форме может быть максимум ${maxValues.questions} вопросов`);
+        return false;
+    }
+
+    upload_new_question_modal.show();
+});
 
 // show edit modal
 document.querySelector('.questions__spot').addEventListener('click', showEditModal);
@@ -36,30 +94,37 @@ document.querySelector('.questions__spot').addEventListener('click', showEditMod
 // display new question
 questionCreate.addEventListener('click', function (e) {
     let data = {
-        'text': tinymce.activeEditor.getContent(),
+        'text': tinymce.get('uploadQuestion').getContent(),
         'type': questionOptions.querySelector('.dropdown-toggle').children[0].dataset.type
     };
-
-    // clear modal
-    clearQuestionModal();
-
-    // hide modal
-    upload_new_question_modal.hide()
 
     // handle edit question action
     if (this.classList.contains('edit')) {
         this.classList.remove('edit');
 
-        return handleEditQuestion(data);
+        handleEditQuestion(data);
+    }
+    else {
+        createQuestion(data);
     }
 
-    createQuestion(data);
+    // clear modal
+    upload_new_question_modal.hide()
+    clearQuestionModal();
 })
 
 // add more options
-document.addEventListener('click', (e) => {
+document.addEventListener('click', async (e) => {
     let el = getParentEl(e.target, 'option__add',1);
     if (!el) return;
+
+    // check amount of options
+    let optionsAmount = getEl(e.target, 'question__options').children.length;
+    let maxValues = await getQuestionsMaxValues();
+    if (optionsAmount === maxValues.options) {
+        showAlertModal(`В одном вопросе может быть максимум ${maxValues.options} вариантов ответа`);
+        return false;
+    }
 
     let type = el.dataset.optionType;
     let outputBlock = getEl(e.target, 'question__options');
@@ -91,7 +156,6 @@ document.querySelector('.questions__spot').addEventListener('click', (e) => {
 
         // restore another option
         if (option.querySelector('.option__input-another')) {
-            console.log(3);
             getEl(option, 'question').querySelector('.option__add-another').classList.remove('d-none');
         }
 
@@ -102,6 +166,12 @@ document.querySelector('.questions__spot').addEventListener('click', (e) => {
 // remove question
 document.querySelector('.questions__spot').addEventListener('click', (e) => {
     if (!getParentEl(e.target, 'question__delete', 1)) return;
+
+    // remove create form button
+    if (document.querySelectorAll('.question').length == 1) {
+        showAlertModal('В форме должен быть минимум один вопрос');
+        return;
+    }
 
     getEl(e.target, 'question').remove();
 })
@@ -150,6 +220,11 @@ document.querySelector('.form__create').addEventListener('click', () => {
             options.push(el.value);
         });
 
+        // if text option, then options array is empty!!!
+        if (options.length === 0) {
+            options.push('');
+        }
+
         // if any input is empty
         if (error) break;
 
@@ -159,28 +234,40 @@ document.querySelector('.form__create').addEventListener('click', () => {
             "options": options,
             "required": question.querySelector('.question__requirable input').checked
         };
-
         questions.push(questionData);
     }
 
     if (questions.length > 0) {
+        // check form title
+        let formTitle = tinymce.get('formDescription').getContent();
+        if (formTitle === '') {
+            showAlertModal('Пустое название формы');
+            return false;
+        }
+
         let form = {
-            'name': 'title 123',
+            'name': formTitle,
             'questions': questions
         };
         postJSON('/form/create', {'form': form})
-        .then(data => data.text())
-        .then(data => console.log(data))
+        .then(data => data.json())
+        .then(data => {
+            if (data.success) location.href = '/profile/form/'+data.form_hash;
+            else showAlertModal('Попробуйте позже, произошла ошибка');
+        })
     }
 })
 
 
 //functions usage
-displayTextCount();// display 0/10 onload
 initUploadQuestionModal(); //init tinyMCE
+displayTextCount(countTextData);// display 0/10 onload
+
+initFormTitle();// init form title tinyMCE
+displayTextCount(countTextFormDescriptionData);// display 0/10 onload
 
 // question create HTML
-createQuestion({'text': 'sdf', 'type': 'radio'})
+createQuestion({'text': 'Ваш вопрос', 'type': 'radio'})
 
 //functions declaration
 
@@ -250,8 +337,8 @@ function showEditModal(e) {
     let type = getEl(e.target,'question__options').dataset.questionType;
 
     // set content
-    tinymce.activeEditor.setContent(text.innerHTML);
-    displayTextCount(text.textContent.length);
+    tinymce.get('uploadQuestion').setContent(text.innerHTML);
+    displayTextCount(countTextData,text.textContent.length);
 
     // set type
     uploadQuestionModal.querySelector(`.dropdown-menu [data-type="${type}"]`).parentNode.click();
@@ -265,77 +352,24 @@ function showEditModal(e) {
     upload_new_question_modal.show();
 }
 function initUploadQuestionModal(questionId = null) {
+    // set missing properties
+    let props = {...tinymceInitializeProps};
+    props.selector = '#uploadQuestion';
+    props.placeHolder = 'Введите текст...';
+    props.min_height = 400;
+    props.setup = (editor) => tinymceKeyPress(countTextData, editor);
+
     // create new question
     if (questionId === null) {
         questionOptions.children[0].classList.add('active');
     }
-    const image_upload_handler_callback = (blobInfo) => new Promise((resolve) => {
-        let blob = blobInfo.blob();
-        let formData = new FormData();
-        formData.append('file', blob);
-        fetch('/form/create_image', {
-            method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': getToken()
-                },
-                body: formData
-        })
-        .then(data => data.json())
-        .then(data => {
-            resolve(data.location)
-
-            //hide modal
-            document.querySelector('.tox-dialog__footer-end').children[1].click();
-            let content = tinymce.activeEditor.getContent() + `<img src='${data.location}'>`;
-            tinymce.activeEditor.setContent(content);
-            tinymce.activeEditor.selection.select(tinyMCE.activeEditor.getBody(), true);
-            tinymce.activeEditor.selection.collapse(false);
-            tinymce.activeEditor.focus();
-        })
-    });
-    tinymce.init({
-        selector: '#uploadQuestion',
-        plugins: 'image wordcount visualchars',
-        toolbar: "bold italic underline | image",
-        image_dimensions: false,
-        images_upload_url: '/form/create_process',
-        content_style: 'img {max-width: 100%;max-height:500px;}',
-        language:'ru',
-        menubar:false,
-        image_description: false,
-        object_resizing : false,
-        statusbar: false,
-        placeholder: 'Название вопроса...',
-        paste_data_images: false,
-        paste_preprocess: (editor, args) => {
-            let content = args.content;
-            args.content = '';
-            setTimeout(() => {
-                let el = document.createElement('span');
-                el.innerHTML = content;
-                let charactersLeft = Math.abs(limit - editor.plugins.wordcount.body.getCharacterCount());
-                content = tinymce.activeEditor.getContent() + `<p>${el.textContent.substr(0,charactersLeft)}</p>`;
-                tinymce.activeEditor.setContent(content);
-                countText.innerHTML = editor.plugins.wordcount.body.getCharacterCount() + '/' + limit;
-            }, 0);
-          },
-        setup: function(editor) {
-            editor.on('keydown', function(e) {
-                    let lengthAfter = editor.plugins.wordcount.body.getCharacterCount();
-                    displayTextCount(lengthAfter, e);
-            });
-            editor.on('click',  function(e) {
-                hideNewQuestionOptions()
-            });
-        },
-        images_upload_handler: image_upload_handler_callback
-    });
+    tinymce.init(props);
 }
-function displayTextCount(lengthAfter = null, e = null) {
+function displayTextCount(data, lengthAfter = null, e = null) {
     const keysToExclude = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Backspace'];
 
     if (lengthAfter === null) { //if page loaded
-        countText.innerHTML = `0/${limit}`;
+        data.node.innerHTML = `0/${limit}`;
     }
     else if (lengthAfter >= limit) { // if increases limit
         if (!keysToExclude.includes(e.key)){
@@ -343,30 +377,33 @@ function displayTextCount(lengthAfter = null, e = null) {
         }
         else {
             setTimeout(() => {
-                countText.innerHTML = tinymce.activeEditor.plugins.wordcount.body.getCharacterCount() + '/' + limit;
+                data.node.innerHTML = tinymce.get(data.id).plugins.wordcount.body.getCharacterCount() + '/' + limit;
             }, 0);
         }
     }
     else { // default
         setTimeout(() => {
-            let currentLength = tinymce.activeEditor.plugins.wordcount.body.getCharacterCount();
+            let currentLength = tinymce.get(data.id).plugins.wordcount.body.getCharacterCount();
 
             if (currentLength == 0) questionCreate.classList.add('d-none');
             else questionCreate.classList.remove('d-none');
 
-            countText.innerHTML = currentLength + '/' + limit;
+            data.node.innerHTML = currentLength + '/' + limit;
         }, 0);
     };
 }
 function clearQuestionModal() {
+    // remove edit class from modal
+    document.querySelector('.new-question__show').classList.remove('edit');
+
     // set defaulttitle
     uploadQuestionModal.querySelector('.modal-title').textContent = 'Новый вопрос';
 
     // set default radio type
     document.querySelector('.new-question__type .dropdown-menu [data-type="radio"]').click()
 
-    displayTextCount();
-    tinymce.activeEditor.setContent('');
+    displayTextCount(countTextData);
+    tinymce.get('uploadQuestion').setContent('');
     tinymce.get('uploadQuestion').remove();
     initUploadQuestionModal()
     questionCreate.classList.add('d-none');
@@ -392,8 +429,64 @@ function createQuestion(data) {
     }
 
     document.querySelector('.questions__spot').append(questionNode);
+
+    // show edit question modal if question title is clicked
+    questionNode.querySelector('.question__text').addEventListener('click', function(e) {
+        let editQuestionBtn = this.parentNode.querySelector('.question__edit');
+        editQuestionBtn.click();
+    })
 }
 
+function tinymcePasteText(countTextNode, editor, args) {
+    let content = args.content;
+    args.content = '';
+    setTimeout(() => {
+        let el = document.createElement('span');
+        el.innerHTML = content;
+        let charactersLeft = Math.abs(limit - editor.plugins.wordcount.body.getCharacterCount());
+        content = tinymce.activeEditor.getContent() + `<p>${el.textContent.substr(0,charactersLeft)}</p>`;
+        tinymce.activeEditor.setContent(content);
+
+        // move cursor to end
+        tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(), true);
+        tinyMCE.activeEditor.selection.collapse(false);
+
+        // show apply button
+        questionCreate.classList.remove('d-none');
+
+        countTextNode.innerHTML = editor.plugins.wordcount.body.getCharacterCount() + '/' + limit;
+    }, 0);
+}
+
+function tinymceKeyPress(data, editor) {
+    editor.on('keydown', function(e) {
+            let lengthAfter = editor.plugins.wordcount.body.getCharacterCount();
+            displayTextCount(data ,lengthAfter, e);
+    });
+    editor.on('click',  function(e) {
+        hideNewQuestionOptions()
+    });
+}
+
+
+
+function initFormTitle() {
+    // set properties
+    let props = {...tinymceInitializeProps};
+
+    props.selector = '#formDescription';
+
+    props.paste_preprocess = (editor, args) => tinymcePasteText(countTextTitle, editor,args);
+    props.setup = (editor) => tinymceKeyPress(countTextFormDescriptionData, editor);
+
+    tinymce.init(props);
+}
+
+async function getQuestionsMaxValues() {
+    let data = await postJSON('/form/create/max_values', {})
+    data = await data.json();
+    return data;
+}
 
 
 

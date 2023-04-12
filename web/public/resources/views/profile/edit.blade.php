@@ -18,7 +18,7 @@
 
                     {{-- update icon --}}
                     <div class="profile-edit__icon">
-                        <img src="/img/users/icons/{{auth()->user()->id}}.jpeg" alt=""><br>
+                        <img class='profile-picture' src="/img/users/icons/{{auth()->user()->id}}.jpeg" alt=""><br>
 
                         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#upload_icon_modal">
                             Поменять иконку

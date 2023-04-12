@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Forms;
 use App\Models\Questions;
 use App\Models\Options;
+use App\Models\QuestionTypes;
 
 class Service
 {
@@ -14,8 +15,13 @@ class Service
         $form = new Forms;
         $form->user_id = Auth::id();
         $form->name = $name;
+        $form->hash = uniqid();
         $form->save();
-        return $form->id;
+
+        return [
+            'id' => $form->id,
+            'hash' => $form->hash
+        ];
     }
 
     public function upload_questions($form_id, $questions)
@@ -29,7 +35,9 @@ class Service
             $question->save();
 
             $this->upload_options($question->id, $q['options']);
+
         }
+        return true;
     }
 
     public function upload_options($q_id, $options)
@@ -37,7 +45,6 @@ class Service
         foreach($options as $o) {
             $option = new Options;
             $option->q_id = $q_id;
-            print_r($o);
             if (is_array($o)) {
                 $option->another = $o['another_option'];
             }

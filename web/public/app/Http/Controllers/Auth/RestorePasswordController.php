@@ -36,6 +36,9 @@ class RestorePasswordController extends BaseController
 
         $data = $request->validate([
             "password" => 'required | confirmed | max:50',
+        ],
+        [
+            "password.confirmed" => 'Пароли не совпадают'
         ]);
 
         $this->service->restore_password($link, $data['password']);

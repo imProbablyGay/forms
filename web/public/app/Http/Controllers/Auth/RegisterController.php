@@ -27,9 +27,10 @@ class RegisterController extends Controller
         return redirect(route('login.index'));
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('auth.register');
+        $post = $request->all();
+        return view('auth.register', compact('post'));
     }
 }
 

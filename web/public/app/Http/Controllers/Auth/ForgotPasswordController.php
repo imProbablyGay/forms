@@ -16,8 +16,12 @@ class ForgotPasswordController extends BaseController
     public function store(Request $request)
     {
         $data = $request->validate([
-            'email' => 'required | email | string | exists:users'
-        ]);
+            'email' => 'required | email | exists:users'
+        ],
+        [
+            "email.exists" => 'Такой email не зарегестрирован'
+        ]
+        );
 
         $this->service->store($data['email']);
 

@@ -8,19 +8,25 @@ use App\Models\QuestionTypes;
 
 class CreateController extends BaseController
 {
+    const MAX_AMOUNT_OF_QUESTIONS = 100;
+    const MAX_AMOUNT_OF_OPTIONS = 100;
+
     public function store(Request $request)
     {
-        $form = $request['form'];
+        $data_form = $request['form'];
 
         // validate questions
-        $questions = $this->validate_questions($form['questions']);
-        if ($questions === 'error') return false;
+        $questions = $this->validate_questions($data_form['questions']);
+        if (!$questions) return false;
 
         // upload form
-        $form_id = $this->service->upload_form($form['name']);
-        $this->service->upload_questions($form_id, $questions);
+        $form = $this->service->upload_form($data_form['name']);
+        $form_questions = $this->service->upload_questions($form['id'], $questions);
 
-        return 'form created';
+        // check errors
+        if (!$form_questions) return ['success' => false];
+
+        return ['success' => true, 'form_hash' => $form['hash'], 'sdf' => [$form]];
     }
 
     public function index()
@@ -38,12 +44,12 @@ class CreateController extends BaseController
 
     // check if question types are modified by user
     private function validate_questions($questions) {
-        $types = [];
-        foreach(QuestionTypes::get() as $type) {
-            $types[] = ['id' => $type->id, 'type' => $type->type];
-        }
+        $types = QuestionTypes::get()->toArray();
 
         foreach($questions as $key => $question) {
+            // check amount of options in each question
+            if (count($question['options']) > self::MAX_AMOUNT_OF_OPTIONS) return false;
+
             // check valid type
             $valid = false;
             foreach($types as $type) {
@@ -56,7 +62,16 @@ class CreateController extends BaseController
             if (!$valid) unset($questions[$key]);
         }
 
-        if (count($questions) === 0) return 'error';
+        if (count($questions) === 0 || count($questions) > self::MAX_AMOUNT_OF_QUESTIONS) return false;
         return $questions;
+    }
+
+    // get max values of form(amount of questions and amount of options)
+    public function get_max_values()
+    {
+        return [
+            'questions' =>self::MAX_AMOUNT_OF_QUESTIONS,
+            'options' => self::MAX_AMOUNT_OF_OPTIONS,
+        ];
     }
 }

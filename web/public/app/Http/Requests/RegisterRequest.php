@@ -24,9 +24,18 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => 'required | max:200 | unique:users',
-            "email" => 'required | email | string | max:100 | unique:users',
+            "name" => 'required | max:50 | unique:users',
+            "email" => 'required | email | max:100 | unique:users',
             "password" => 'required | confirmed | max:50',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "name.unique" => 'Такое имя уже зарегестрировано',
+            "email.unique" => 'Такой email уже зарегестрирован',
+            "password.confirmed" => 'Пароли не совпадают'
         ];
     }
 }

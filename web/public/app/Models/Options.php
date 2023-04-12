@@ -10,4 +10,9 @@ class Options extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    function question()
+    {
+        return $this->belongsTo(Questions::class, 'q_id', 'id');
+    }
 }

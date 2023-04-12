@@ -16,13 +16,12 @@
             <div class="col-12 justify-content-center d-flex">
                 <form action="{{route('register.register')}}" method="post" class="register__form">
                     @csrf
-
                     {{-- email --}}
                     <div class='register__input'>
                         @if($errors->has('email'))
-                            <span class="register__error">{{ $errors->first('name') }}</span>
+                            <span class="register__error">{{ $errors->first('email') }}</span>
                         @endif
-                        <input type="text" name="name" id="" placeholder="Ваш e-mail">
+                        <input type="text" name="email" id="" placeholder="Ваш e-mail" value='{{old("email")}}'>
                     </div>
 
                     {{-- name --}}
@@ -30,7 +29,7 @@
                         @if($errors->has('name'))
                             <span class="register__error">{{ $errors->first('name') }}</span>
                         @endif
-                        <input type="text" name="name" id="" placeholder="Имя пользователя">
+                        <input type="text" name="name" id="" placeholder="Имя пользователя" value='{{old("name")}}'>
                     </div>
 
                     {{-- password --}}

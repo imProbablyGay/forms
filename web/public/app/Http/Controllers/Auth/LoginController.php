@@ -27,7 +27,7 @@ class LoginController extends Controller
         ];
 
         if(auth()->attempt($login_data, $remember)) {
-            return redirect(route('edit_profile_data.edit'));
+            return redirect(route('profile.index'));
         }
 
         return redirect(route('login.index'))->with('wrong_data', 'Неправильный e-mail/имя пользователя или пароль');

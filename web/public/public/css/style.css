@@ -4,12 +4,67 @@
       );
 }
 
+header {
+  height: 60px;
+}
+
 body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-picture {
+  border-radius: 50%;
 }
 
 .container {
   max-width: 850px !important;
+}
+
+.navbar {
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--blue);
+}
+.navbar-brand {
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 24px !important;
+  transition: 0.3s;
+}
+.navbar-brand:hover {
+  text-shadow: 0px 2px 5px var(--blue);
+  color: var(--blue);
+}
+.navbar__profile {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.navbar__profile span {
+  padding-left: 4px;
+  font-size: 18px;
+  color: var(--blue);
+}
+.navbar__profile img {
+  width: 40px;
+  border-radius: 50%;
+}
+.navbar__login {
+  border: 1px solid var(--blue);
+  border-radius: 5px;
+  padding: 7px 20px;
+  color: var(--blue);
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.navbar__login:hover {
+  background: var(--blue);
+  color: white;
 }
 
 #upload_icon_modal .change-icon__btn {
@@ -70,10 +125,78 @@ body {
   align-items: center;
 }
 
+.page {
+  flex-grow: 2;
+}
+
+.home {
+  margin-top: -60px;
+}
+.home__title {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.home__register {
+  text-decoration: none;
+  width: auto !important;
+}
+
+.footer {
+  background: rgb(134, 133, 133);
+  padding: 20px 0;
+}
+.footer__copy {
+  font-weight: 600;
+  text-align: center;
+}
+
+.form {
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+.form__author {
+  padding-bottom: 50px;
+}
+.form__author img {
+  border-radius: 50%;
+  width: 130px;
+}
+.form__description {
+  padding: 40px 0;
+}
+.form__title img {
+  width: 100%;
+}
+
+.btn-add, .btn-create, .btn-delete {
+  width: 100%;
+  background-color: white;
+  border: 2px solid var(--blue);
+  color: var(--blue);
+  font-weight: 700;
+  padding: 10px 15px;
+  border-radius: 5px;
+  outline: none;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+.btn-add:hover, .btn-create:hover, .btn-delete:hover {
+  background: var(--blue);
+  color: white;
+}
+
 .question {
+  scroll-margin-top: 50px;
   border: 1px solid lightgrey;
   border-radius: 5px;
   margin-bottom: 10px;
+}
+.question__not-set {
+  border-color: red;
+  box-shadow: 0px 0px 3px red;
 }
 .question .dropdown {
   height: 100%;
@@ -99,7 +222,17 @@ body {
   margin-right: 3px;
 }
 .question__text {
-  padding: 10px;
+  padding: 10px 10px 15px;
+}
+.question__text p {
+  margin: 0;
+}
+.question__text img {
+  width: 100%;
+}
+.question__text-highlight:hover {
+  cursor: pointer;
+  color: grey;
 }
 .question__delete img {
   margin-bottom: 2px;
@@ -123,10 +256,10 @@ body {
 .option {
   display: flex;
   flex-grow: 1;
-  padding: 10px;
-  padding-bottom: 0;
+  padding: 15px 10px;
+  padding-top: 0;
 }
-.option input {
+.option input, .option textarea {
   flex-grow: 1;
   height: 30px;
   margin-left: 7px;
@@ -135,8 +268,46 @@ body {
   border: none;
   border-bottom: 1px solid transparent;
 }
-.option input:focus {
+.option input:focus, .option input:hover, .option textarea:focus, .option textarea:hover {
   border-bottom: 1px solid var(--blue);
+}
+.option .option__input-another {
+  border: none !important;
+}
+.option textarea {
+  margin-left: 0;
+  border-bottom: 1px solid var(--blue);
+}
+.option__statistics {
+  color: grey;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 4px 0;
+}
+.option__unset {
+  padding: 10px;
+}
+.option__unset span {
+  cursor: pointer;
+  font-weight: 600;
+  color: red;
+}
+.option__scroll {
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+.option__scroll-item {
+  padding: 10px;
+  border-bottom: 1px solid lightgrey;
+}
+.option__scroll-title {
+  width: 100%;
+  color: grey;
+  font-weight: 600;
 }
 .options {
   display: flex;
@@ -146,13 +317,22 @@ body {
 .options__add {
   display: flex;
   flex-wrap: wrap;
-  padding: 20px 10px 10px;
+  padding: 10px;
   justify-content: space-between;
+}
+.option__another-text {
+  line-height: 30px;
+  margin: 0;
+  margin-left: 7px;
+}
+.option__another-input {
+  border-bottom: 1px solid var(--blue) !important;
 }
 .option__add {
   flex-grow: 1;
-  border: 1px solid lightgrey;
-  color: grey;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-weight: 700;
   padding: 7px;
   text-align: center;
   cursor: pointer;
@@ -177,9 +357,12 @@ body {
 .option__delete:hover .cross-close {
   opacity: 1;
 }
+.option__text {
+  margin-left: 7px;
+}
 
 .login, .register, .forgot-password, .restore-password, .restored-password, .profile-edit {
-  min-height: 100vh !important;
+  min-height: calc(100vh - 60px) !important;
   padding: 30px 0;
   width: 100%;
   display: flex;
@@ -268,6 +451,137 @@ body {
   margin-bottom: 8px;
 }
 
+.profile {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.profile__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.profile__title img {
+  width: 200px;
+}
+.profile__controls {
+  display: flex;
+  flex-wrap: wrap;
+}
+.profile__controls a {
+  min-width: calc(50% - 5px);
+  color: white !important;
+  text-decoration: none;
+  text-align: center;
+  background: var(--blue);
+  color: white;
+  font-weight: 700;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+}
+.profile__controls a:hover {
+  box-shadow: 0px 0px 5px var(--blue);
+}
+.profile__controls a:first-child {
+  margin-right: 10px;
+}
+.profile__controls-form {
+  margin-top: 10px;
+  width: 100%;
+}
+.profile__answer {
+  padding: 10px;
+  border-bottom: 1px solid var(--blue);
+}
+.profile__answer p {
+  margin: 0;
+}
+.profile__answer-date, .profile__answer-amount {
+  color: grey;
+  font-size: 14px;
+}
+.profile__answer-delete span {
+  color: red;
+  font-weight: 600;
+  cursor: pointer;
+}
+.profile__answer-delete span:hover {
+  text-decoration: underline;
+}
+.profile__answer-text {
+  padding: 10px 0;
+}
+.profile__answer-text a {
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+}
+.profile__answer-text a:hover {
+  color: var(--blue);
+  text-decoration: underline;
+}
+.profile__forms {
+  padding-top: 40px;
+}
+.profile__forms-place {
+  border: 1px solid var(--blue);
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.profile__forms-place .no-answers {
+  padding: 15px 10px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--blue);
+}
+.profile-form__copy-link {
+  width: auto !important;
+  margin-bottom: 30px;
+}
+.profile-form .controls__item {
+  cursor: pointer;
+  color: grey;
+  position: relative;
+}
+.profile-form .controls__item.active {
+  font-weight: 600;
+  color: var(--blue);
+}
+.profile-form .controls__item.active:after {
+  display: block;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--blue);
+}
+.profile-form-question__total-amount {
+  border-bottom: 1px solid lightgrey;
+  padding: 10px !important;
+  color: grey;
+  font-weight: 600;
+}
+.profile-form__tabs .controls {
+  padding: 15px 0;
+}
+.profile-form__tabs .controls input {
+  height: 100%;
+  border: none;
+  border-bottom: 1px solid lightgrey;
+  outline: none;
+}
+.profile-form__tabs .controls input:hover, .profile-form__tabs .controls input:focus {
+  border-color: var(--blue);
+}
+.profile-edit {
+  padding-bottom: 40px;
+}
 .profile-edit__success {
   text-align: center;
   padding-bottom: 10px;
@@ -284,7 +598,6 @@ body {
 .profile-edit__icon img {
   width: 150px;
   height: 150px;
-  border-radius: 50%;
 }
 .profile-edit__icon button {
   margin: 10px 0 20px;
@@ -321,6 +634,11 @@ body {
   .login__form {
     padding: 20px !important;
   }
+  .profile__controls a {
+    width: 100% !important;
+    margin-right: 0 !important;
+    margin-top: 10px;
+  }
 }
 /* Customize the label (the radio) */
 .radio {
@@ -350,7 +668,6 @@ body {
   left: 0;
   height: 22px;
   width: 22px;
-  background-color: #eee;
   border-radius: 50%;
 }
 
@@ -638,19 +955,4 @@ body {
   padding-top: 10px !important;
   padding-bottom: 10px;
   box-shadow: 0px 0px 10px black;
-}
-
-@media screen and (max-width: 992px) {
-  .navbar {
-    padding-top: 10px !important;
-    background: grey;
-    box-shadow: 0px 0px 10px grey;
-  }
-  .navbar-nav {
-    padding-top: 70px;
-  }
-  .navbar .nav-link {
-    display: inline;
-    line-height: 3;
-  }
 }/*# sourceMappingURL=style.css.map */

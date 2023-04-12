@@ -7,10 +7,6 @@
 @section('main')
 
 
-@if($errors->any())
-    {{ implode('', $errors->all('<div>:message</div>')) }}
-@endif
-
 <div class="container form">
     <div class="row form__title text-center">
         <div class="form__title col-12">
@@ -18,10 +14,16 @@
         </div>
     </div>
 
-    <div class="questions">
+    <div class="form__description">
+        <h6>Краткое описание вашей формы:</h6>
+        <textarea id="formDescription"></textarea>
+        <div class="count__text-title"><span></span></div>
+    </div>
+
+    <div class="form__questions questions">
         <div class="questions__spot">
             <div class="question">
-                <div class="question__text"></div>
+                <div class="question__text question__text-highlight"></div>
 
                 <div class="question__options" data-question-type=''>
                     <div class="question__option option">
@@ -72,11 +74,11 @@
         </div>
         <div class="row question__create">
             <div class="col-md-6 col-12">
-                <button type='button' class="new-question__add btn btn-primary">Добавить вопрос</button>
+                <button type='button' class="btn-add new-question__add">Добавить вопрос</button>
             </div>
 
             <div class="col-md-6 col-12">
-                <button type='button' class="form__create btn btn-primary">Создать форму</button>
+                <button type='button' class=" btn-create form__create">Создать форму</button>
             </div>
         </div>
     </div>
