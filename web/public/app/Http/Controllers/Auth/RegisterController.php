@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-       $data = $request->validated();
+        $data = $request->validated();
+
         $user = User::create([
             "name" => $data['name'],
             "email" => $data['email'],
@@ -28,8 +29,7 @@ class RegisterController extends Controller
 
     public function index(Request $request)
     {
-        $post = $request->all();
-        return view('auth.register', compact('post'));
+        return view('auth.register');
     }
 }
 
