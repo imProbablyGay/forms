@@ -1,9 +1,3 @@
-// scroll text block
-let TEXT_VALUES = {
-    'offset': 0,
-    'limit': null //set null while getting first text values
-};
-
 let TABS_VALUES = {
     'statistics_offset': 0,
     'certain_answer_offset': 0
@@ -186,18 +180,16 @@ async function loadMoreTextValues(e) {
         if (e.target.scrollTop + e.target.offsetHeight < e.target.scrollHeight - 70) return;
         document.removeEventListener('scroll', loadMoreTextValues, true /*Capture event*/);
 
-        // increase offset
-        TEXT_VALUES.offset += TEXT_VALUES.limit;
 
         let parentNode = e.target;
         let o_id = e.target.dataset.optionId;
-
-        let values = await postJSON('/profile/option/'+o_id, {'offset': TEXT_VALUES.offset});
+        let offset = e.target.querySelectorAll('.option__scroll-item').length;
+        let values = await postJSON('/profile/option/'+o_id, {'offset': offset});
         values = await values.json();
 
         // check if all text values are displayed
         if (values.length === 0) {
-            document.removeEventListener('scroll', loadMoreTextValues, true /*Capture event*/);
+            document.addEventListener('scroll', loadMoreTextValues, true /*Capture event*/);
             return;
         }
 
@@ -226,9 +218,6 @@ function handleChooseOption(optionsArray,type) {
 
             // check another
             if (option['another']) {
-                // set limit
-                TEXT_VALUES.limit = option.text.length;
-
                 // add scroll menu with answers
                 optionContent = `<h6 class='option__another-text'>Другое: </h6>`;
 
@@ -316,9 +305,6 @@ function handleTextOption(options) {
 
     // if statistics tab
     if (activeTab === 'statistics') {
-        // set limit
-        TEXT_VALUES.limit = options[0].text.length;
-
         if (options[0].text.length > 0) {
             output = '<div class="option__scroll-title"><span>Ответы:</span></div>';
             output += `<div class="option__scroll" data-option-id='${options[0].id}'>`;
