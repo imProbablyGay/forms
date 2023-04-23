@@ -40,7 +40,6 @@ const image_upload_handler_callback = (blobInfo) => new Promise((resolve) => {
         resolve(data.location)
 
         //hide modal
-        console.log(data.location);
         document.querySelector('.tox-dialog__footer-end').children[1].click();
         let content = tinymce.activeEditor.getContent() + `<img src='${data.location}'>`;
         tinymce.activeEditor.setContent(content);
@@ -64,6 +63,8 @@ const tinymceInitializeProps = {
     object_resizing : false,
     statusbar: false,
     paste_data_images: false,
+    relative_urls: false,
+    remove_script_host: false,
 
     // handle paste text
     paste_preprocess: (editor, args) => tinymcePasteText(countText, editor,args),
